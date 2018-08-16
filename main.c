@@ -2556,19 +2556,19 @@ int main(void) {
 	s_locamac = GetLocalMac();
 	misc_info_from_db(SENSOR_DB_FILE_PATH, &s_gid);
 	printf("s_gid : %s\n", s_gid);
-    s_pipe = pipe_new(sizeof(guchar), 0);
-    s_p = pipe_producer_new(s_pipe);
-    s_c = pipe_consumer_new(s_pipe);
-    g_thread_unref(g_thread_new ("serial read thread", reader_loop_thread, NULL));
+	s_pipe = pipe_new(sizeof(guchar), 0);
+	s_p = pipe_producer_new(s_pipe);
+	s_c = pipe_consumer_new(s_pipe);
+	g_thread_unref(g_thread_new ("serial read thread", reader_loop_thread, NULL));
 #ifdef __ARM__
-    subG_reset();
-    s_fd = uart_init();
-    if(s_fd >= 0) {
-        set_speed(s_fd, 921600);
-        set_Parity(s_fd, 8, 1, 'N');
-        g_log (TAG, G_LOG_LEVEL_DEBUG, "open device %s correctly", s_device_path);
-        g_thread_unref(g_thread_new ("serial read thread", serial_read_thread, &s_fd));
-    }
+	subG_reset();
+	s_fd = uart_init();
+	if(s_fd >= 0) {
+		set_speed(s_fd, 921600);
+		set_Parity(s_fd, 8, 1, 'N');
+		g_log (TAG, G_LOG_LEVEL_DEBUG, "open device %s correctly", s_device_path);
+		g_thread_unref(g_thread_new ("serial read thread", serial_read_thread, &s_fd));
+	}
 #endif
 
     if(!g_file_test(SENSOR_JSON_FILE_PATH, G_FILE_TEST_EXISTS)) {
