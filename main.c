@@ -58,71 +58,71 @@
 
 #define INFO_LEN													16
 struct _active_slot_st{
-    guint start;
-    guint end;
-    //struct list_head node;
+	guint start;
+	guint end;
+	//struct list_head node;
 };
 struct _limit_st{
-    gfloat low;
-    gfloat high;
-    //struct list_head node;
+	gfloat low;
+	gfloat high;
+	//struct list_head node;
 };
 
 struct _confirm_st{
-    guint times;
-    guint raw;
-    guint shadow;
+	guint times;
+	guint raw;
+	guint shadow;
 };
 
 struct _alarm_st{
-    guint type;
-    guint src;
-    GSList *limit_list;
-    
-    //struct list_head node;
+	guint type;
+	guint src;
+	GSList *limit_list;
+	
+	//struct list_head node;
 };
 
 struct _argument_st{
-    guint channel;
-    guint freq;
-    guint nums;
-    GSList *alarm_list;
-    struct _confirm_st *confirm;
-    //struct list_head node;
+	guint channel;
+	guint freq;
+	guint nums;
+	GSList *alarm_list;
+	struct _confirm_st *confirm;
+	//struct list_head node;
 };
 
 struct _sensor_st{
-    guint id;
-    guint group;
-    guint aquire_cycle;
-    guint triger;
-    guint raw;
-    GSList *active_list;
-    GSList *argument_list;
-    //struct list_head node;
+	guint id;
+	guint group;
+	guint aquire_cycle;
+	guint triger;
+	guint raw;
+	GSList *active_list;
+	GSList *argument_list;
+	//struct list_head node;
 };
 
 struct _cmd_list{
-    guint id;// 传感器ID
-    guint cmd;
-    guint delay;
-    void* data;// 附加数据
-    guint len;
-    // 响应事件
-    //guint event;
-    guint resend;
-    gboolean notify;
-    GCond *cond;
-    GMutex *mutex;
+	guint id;// 传感器ID
+	guint cmd;
+	guint delay;
+	void* data;// 附加数据
+	guint len;
+	// 响应事件
+	//guint event;
+	guint resend;
+	gboolean notify;
+	GCond *cond;
+	GMutex *mutex;
 };
 
 struct _end_packet {
-    guchar  hed[4];
-    gushort sn;
-    guchar  len;
-    guchar  cmd;
-    guchar  flag;
-    guchar  res[3];
+	guchar  hed[4];
+	gushort sn;
+	guchar  len;
+	guchar  cmd;
+	guchar  flag;
+	guchar  res[3];
 };
 
 struct _rf_st{
@@ -132,18 +132,18 @@ struct _rf_st{
 };
 
 struct _cache_st {
-    guint id;
-    guint ts;
-    guint idx;
-    guint crc;
-    guint volt;
-    guint rssi;
-    gfloat coef;
-    gfloat value;
-    guint channel;
-    guint freq;
-    guint nums;
-    guint address[3];
+	guint id;
+	guint ts;
+	guint idx;
+	guint crc;
+	guint volt;
+	guint rssi;
+	gfloat coef;
+	gfloat value;
+	guint channel;
+	guint freq;
+	guint nums;
+	guint address[3];
 };
 
 struct _check_alarm {
@@ -172,9 +172,9 @@ struct _mqtt_st {
 };
 struct _ntp_st {
 	gchar host[32];
-    guint updateTime;
-    gboolean isUpdate;
-    gboolean check;
+	guint updateTime;
+	gboolean isUpdate;
+	gboolean check;
 };
 struct _net_parameter_st {
 	struct _local_st _local;
@@ -220,230 +220,230 @@ int misc_info_from_db(const char *db, char **gid);
 
 void dumpmem(guchar *mem, guint len)
 {
-    printf("\n");
-    for(int i=0; i<len; i++) {
-        if(i!=0 && i%16==0)printf("\n");
-        printf("%02X ", mem[i]);
-    }
-    printf("\n");
+	printf("\n");
+	for(int i=0; i<len; i++) {
+		if(i!=0 && i%16==0)printf("\n");
+		printf("%02X ", mem[i]);
+	}
+	printf("\n");
 }
 
 gint uart_init()
 {
-    gint fd = -1;
-    
-    fd = open(s_device_path, O_RDWR);
-    if(fd > 0){
-        gint flags;
-        struct termios  ios;
-        tcgetattr( fd, &ios );
-        ios.c_iflag |= (IGNBRK | IGNPAR);
-        ios.c_iflag &= ~(BRKINT|ICRNL|INPCK|ISTRIP|IXON);   
-        ios.c_oflag &= ~OPOST;
-        ios.c_oflag      = 0;
-        ios.c_lflag &= ~(ECHO|ECHONL|ISIG|IEXTEN|ICANON);
-        ios.c_lflag = 0;
-        ios.c_cflag  |= CS8 | CREAD;
-        ios.c_cflag  &= ~PARENB;
-        ios.c_cflag |= CSTOPB;
-        ios.c_cc[VMIN]   = 1;
-        ios.c_cc[VTIME]  = 0;
-        cfsetispeed(&ios, B921600);
-        cfsetospeed(&ios, B921600);
-        tcflush(fd,TCIOFLUSH);
-        tcsetattr( fd, TCSANOW, &ios );
+	gint fd = -1;
+	
+	fd = open(s_device_path, O_RDWR);
+	if(fd > 0){
+		gint flags;
+		struct termios  ios;
+		tcgetattr( fd, &ios );
+		ios.c_iflag |= (IGNBRK | IGNPAR);
+		ios.c_iflag &= ~(BRKINT|ICRNL|INPCK|ISTRIP|IXON);   
+		ios.c_oflag &= ~OPOST;
+		ios.c_oflag      = 0;
+		ios.c_lflag &= ~(ECHO|ECHONL|ISIG|IEXTEN|ICANON);
+		ios.c_lflag = 0;
+		ios.c_cflag  |= CS8 | CREAD;
+		ios.c_cflag  &= ~PARENB;
+		ios.c_cflag |= CSTOPB;
+		ios.c_cc[VMIN]   = 1;
+		ios.c_cc[VTIME]  = 0;
+		cfsetispeed(&ios, B921600);
+		cfsetospeed(&ios, B921600);
+		tcflush(fd,TCIOFLUSH);
+		tcsetattr( fd, TCSANOW, &ios );
 
-        flags = fcntl(fd, F_GETFL, 0);
-        fcntl(fd, F_SETFL, flags | O_NONBLOCK);
-    }
-    return fd;
+		flags = fcntl(fd, F_GETFL, 0);
+		fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+	}
+	return fd;
 }
 int speed_arr[] = { 
-    B921600, B460800, B230400, B115200, B57600, B38400, B19200, 
-    B9600, B4800, B2400, B1200, B300, 
+	B921600, B460800, B230400, B115200, B57600, B38400, B19200, 
+	B9600, B4800, B2400, B1200, B300, 
 };
 
 int name_arr[] = {
-    921600, 460800, 230400, 115200, 57600, 38400,  19200,  
-    9600,  4800,  2400,  1200,  300,  
+	921600, 460800, 230400, 115200, 57600, 38400,  19200,  
+	9600,  4800,  2400,  1200,  300,  
 };
 void set_speed(int fd, int speed)
 {
-    int   i;
-    int   status;
-    struct termios   Opt;
-    tcgetattr(fd, &Opt);
+	int   i;
+	int   status;
+	struct termios   Opt;
+	tcgetattr(fd, &Opt);
 
-    for ( i= 0;  i < sizeof(speed_arr) / sizeof(int);  i++) {
-        if  (speed == name_arr[i])    {
-            tcflush(fd, TCIOFLUSH);
-            cfsetispeed(&Opt, speed_arr[i]);
-            cfsetospeed(&Opt, speed_arr[i]);
-            status = tcsetattr(fd, TCSANOW, &Opt);
-            if  (status != 0)
-                perror("tcsetattr fd1");
-            return;
-        }
-        tcflush(fd,TCIOFLUSH);
-    }
+	for ( i= 0;  i < sizeof(speed_arr) / sizeof(int);  i++) {
+		if  (speed == name_arr[i])    {
+			tcflush(fd, TCIOFLUSH);
+			cfsetispeed(&Opt, speed_arr[i]);
+			cfsetospeed(&Opt, speed_arr[i]);
+			status = tcsetattr(fd, TCSANOW, &Opt);
+			if  (status != 0)
+				perror("tcsetattr fd1");
+			return;
+		}
+		tcflush(fd,TCIOFLUSH);
+	}
 }
 int set_Parity(int fd,int databits,int stopbits,int parity)
 {
-    struct termios options;
-    memset(&options, 0, sizeof(struct termios));
-    if  ( tcgetattr( fd,&options)  !=  0) {
-        perror("SetupSerial 1");
-        return(FALSE);
-    }
-    options.c_cflag &= ~CSIZE ;
-    switch (databits) /*设置数据位数*/ {
-    case 7:
-        options.c_cflag |= CS7;
-        break;
-    case 8:
-        options.c_cflag |= CS8;
-        break;
-    default:
-        fprintf(stderr,"Unsupported data size\n");
-        return (FALSE);
-    }
+	struct termios options;
+	memset(&options, 0, sizeof(struct termios));
+	if  ( tcgetattr( fd,&options)  !=  0) {
+		perror("SetupSerial 1");
+		return(FALSE);
+	}
+	options.c_cflag &= ~CSIZE ;
+	switch (databits) /*设置数据位数*/ {
+	case 7:
+		options.c_cflag |= CS7;
+		break;
+	case 8:
+		options.c_cflag |= CS8;
+		break;
+	default:
+		fprintf(stderr,"Unsupported data size\n");
+		return (FALSE);
+	}
 
-    switch (parity) {
-    case 'n':
-    case 'N':
-        options.c_cflag &= ~PARENB;   /* Clear parity enable */
-        options.c_iflag &= ~INPCK;     /* Enable parity checking */
-        break;
-    case 'o':
-    case 'O':
-        options.c_cflag |= (PARODD | PARENB);  /* 设置为奇效验*/
-        options.c_iflag |= INPCK;             /* Disnable parity checking */
-        break;
-    case 'e':
-    case 'E':
-        options.c_cflag |= PARENB;     /* Enable parity */
-        options.c_cflag &= ~PARODD;   /* 转换为偶效验*/ 
-        options.c_iflag |= INPCK;       /* Disnable parity checking */
-        break;
-    case 'S':    
-    case 's':  /*as no parity*/
-        options.c_cflag &= ~PARENB;
-        options.c_cflag &= ~CSTOPB;
-        break;
-    default:
-        fprintf(stderr,"Unsupported parity\n");
-        return (FALSE);
-    }
-    /* 设置停止位*/  
-    switch (stopbits) {
-    case 1:
-        options.c_cflag &= ~CSTOPB;
-        break;
-    case 2:
-        options.c_cflag |= CSTOPB;
-        break;
-    default:
-        fprintf(stderr,"Unsupported stop bits\n");
-        return (FALSE);
-    }
-    /* Set input parity option */
-    if (parity != 'n')
-        options.c_iflag |= INPCK;
-    options.c_cc[VTIME] = 1; // 150 seconds
-    options.c_cc[VMIN] = 1;
+	switch (parity) {
+	case 'n':
+	case 'N':
+		options.c_cflag &= ~PARENB;   /* Clear parity enable */
+		options.c_iflag &= ~INPCK;     /* Enable parity checking */
+		break;
+	case 'o':
+	case 'O':
+		options.c_cflag |= (PARODD | PARENB);  /* 设置为奇效验*/
+		options.c_iflag |= INPCK;             /* Disnable parity checking */
+		break;
+	case 'e':
+	case 'E':
+		options.c_cflag |= PARENB;     /* Enable parity */
+		options.c_cflag &= ~PARODD;   /* 转换为偶效验*/ 
+		options.c_iflag |= INPCK;       /* Disnable parity checking */
+		break;
+	case 'S':    
+	case 's':  /*as no parity*/
+		options.c_cflag &= ~PARENB;
+		options.c_cflag &= ~CSTOPB;
+		break;
+	default:
+		fprintf(stderr,"Unsupported parity\n");
+		return (FALSE);
+	}
+	/* 设置停止位*/  
+	switch (stopbits) {
+	case 1:
+		options.c_cflag &= ~CSTOPB;
+		break;
+	case 2:
+		options.c_cflag |= CSTOPB;
+		break;
+	default:
+		fprintf(stderr,"Unsupported stop bits\n");
+		return (FALSE);
+	}
+	/* Set input parity option */
+	if (parity != 'n')
+		options.c_iflag |= INPCK;
+	options.c_cc[VTIME] = 1; // 150 seconds
+	options.c_cc[VMIN] = 1;
 
-    options.c_lflag &= ~(ECHO | ICANON);
+	options.c_lflag &= ~(ECHO | ICANON);
 
-    options.c_cflag &= ~CRTSCTS;
+	options.c_cflag &= ~CRTSCTS;
 
-    tcflush(fd,TCIFLUSH); /* Update the options and do it NOW */
-    if (tcsetattr(fd,TCSANOW,&options) != 0) {
-        perror("SetupSerial 3");
-        return (FALSE);
-    }
+	tcflush(fd,TCIFLUSH); /* Update the options and do it NOW */
+	if (tcsetattr(fd,TCSANOW,&options) != 0) {
+		perror("SetupSerial 3");
+		return (FALSE);
+	}
 
-    //gint flags;
-    //flags = fcntl(fd, F_GETFL, 0);
-    //fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+	//gint flags;
+	//flags = fcntl(fd, F_GETFL, 0);
+	//fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 
-    return (TRUE);
+	return (TRUE);
 }
 
 //
 gboolean serial_write_data(guchar *buf, guint len) {
-    guint writelen = 0;
+	guint writelen = 0;
 
 #ifdef __ARM__
-    while(len > 0) {
-        writelen = write(s_fd, buf + writelen, len);
-        if(writelen < 0) {
-            g_log(TAG, G_LOG_LEVEL_DEBUG, "wirte data to serial fail errno=%d", errno);
-            return FALSE;
-        }
-        len -= writelen;
-    }
+	while(len > 0) {
+		writelen = write(s_fd, buf + writelen, len);
+		if(writelen < 0) {
+			g_log(TAG, G_LOG_LEVEL_DEBUG, "wirte data to serial fail errno=%d", errno);
+			return FALSE;
+		}
+		len -= writelen;
+	}
 #endif
-    return (len == 0);
+	return (len == 0);
 }
 //
 static gpointer serial_read_thread(gpointer user_data) {
-    int fd = *(int *) user_data;
-    guchar buf[64*1024];
-    gint readlen = 0;
-    gint curlen = 0;
-    g_log (TAG, G_LOG_LEVEL_DEBUG, "star ttyO2(%d) read loop", fd);
-    for(;;) {
-        while(1){
-            readlen = read(fd, buf+curlen, 1024);
-            if(readlen < 0)break;
-            //g_log (TAG, G_LOG_LEVEL_DEBUG, "readl %d bytes", readlen);
-            curlen += readlen;
-            g_usleep(2*1000);
-        }
+	int fd = *(int *) user_data;
+	guchar buf[64*1024];
+	gint readlen = 0;
+	gint curlen = 0;
+	g_log (TAG, G_LOG_LEVEL_DEBUG, "star ttyO2(%d) read loop", fd);
+	for(;;) {
+		while(1){
+			readlen = read(fd, buf+curlen, 1024);
+			if(readlen < 0)break;
+			//g_log (TAG, G_LOG_LEVEL_DEBUG, "readl %d bytes", readlen);
+			curlen += readlen;
+			g_usleep(2*1000);
+		}
 
-        if(curlen > 0) {
-            //dumpmem(buf, curlen);
-            //g_log (TAG, G_LOG_LEVEL_DEBUG, "push %d bytes to fifo", curlen);
-            pipe_push(s_p, buf, curlen);
-        }
-        g_usleep(10*1000);
-        curlen = 0;
-    }
-    
-    return GINT_TO_POINTER(-1);
+		if(curlen > 0) {
+			//dumpmem(buf, curlen);
+			//g_log (TAG, G_LOG_LEVEL_DEBUG, "push %d bytes to fifo", curlen);
+			pipe_push(s_p, buf, curlen);
+		}
+		g_usleep(10*1000);
+		curlen = 0;
+	}
+	
+	return GINT_TO_POINTER(-1);
 }
 
 static inline void build_command(guint cmd, guchar *data, guint len, guint delay)
 {
-    struct _cmd_list *pcmd = (struct _cmd_list *)
-                g_malloc0(sizeof(struct _cmd_list));
-    g_async_queue_lock(s_asyncQueue);
-    pcmd->cmd = cmd;
-    pcmd->data = (void *)g_malloc0(len);
-    memcpy(pcmd->data, data, len);
-    pcmd->len = len;
-    pcmd->delay = delay;
-    g_async_queue_push_unlocked(s_asyncQueue, pcmd);
-    g_async_queue_unlock(s_asyncQueue);
+	struct _cmd_list *pcmd = (struct _cmd_list *)
+				g_malloc0(sizeof(struct _cmd_list));
+	g_async_queue_lock(s_asyncQueue);
+	pcmd->cmd = cmd;
+	pcmd->data = (void *)g_malloc0(len);
+	memcpy(pcmd->data, data, len);
+	pcmd->len = len;
+	pcmd->delay = delay;
+	g_async_queue_push_unlocked(s_asyncQueue, pcmd);
+	g_async_queue_unlock(s_asyncQueue);
 }
 static inline void build_sensor_command(guint id, guint cmd, guchar *data, guint len, guint delay, gboolean notify, GCond *cond, GMutex *mutex)
 {
-    struct _cmd_list *pcmd = (struct _cmd_list *)
-                g_malloc0(sizeof(struct _cmd_list));
+	struct _cmd_list *pcmd = (struct _cmd_list *)
+				g_malloc0(sizeof(struct _cmd_list));
 
-    g_async_queue_lock(s_asyncQueue);
-    pcmd->id = id;
-    pcmd->cmd = cmd;
-    pcmd->data = (void *)g_malloc0(len);
-    memcpy(pcmd->data, data, len);
-    pcmd->len = len;
-    pcmd->delay = delay;
-    pcmd->notify = notify;
-    pcmd->cond = cond;
-    pcmd->mutex = mutex;
-    //printf("pcmd->cond=%p,  pcmd->mutex=%p\n", pcmd->cond, pcmd->mutex);
-    g_async_queue_push_unlocked(s_asyncQueue, pcmd);
-    g_async_queue_unlock(s_asyncQueue);
+	g_async_queue_lock(s_asyncQueue);
+	pcmd->id = id;
+	pcmd->cmd = cmd;
+	pcmd->data = (void *)g_malloc0(len);
+	memcpy(pcmd->data, data, len);
+	pcmd->len = len;
+	pcmd->delay = delay;
+	pcmd->notify = notify;
+	pcmd->cond = cond;
+	pcmd->mutex = mutex;
+	//printf("pcmd->cond=%p,  pcmd->mutex=%p\n", pcmd->cond, pcmd->mutex);
+	g_async_queue_push_unlocked(s_asyncQueue, pcmd);
+	g_async_queue_unlock(s_asyncQueue);
 }
 
 #define NTP_TIMESTAMP_DELTA 2208988800ull
@@ -452,151 +452,151 @@ static inline void build_sensor_command(guint id, guint cmd, guchar *data, guint
 #define MODE(packet) (uint8_t) ((packet.li_vn_mode & 0x07) >> 0) // (mode & 00 000 111) >> 0
 gboolean require_internet_datetime(char *host_name)
 {
-    int sockfd, n; // Socket file descriptor and the n return result from writing/reading from the socket.
-    int portno = 123; // NTP UDP port number.
-    //char* host_name = "us.pool.ntp.org"; // NTP server host-name.
+	int sockfd, n; // Socket file descriptor and the n return result from writing/reading from the socket.
+	int portno = 123; // NTP UDP port number.
+	//char* host_name = "us.pool.ntp.org"; // NTP server host-name.
 
-    // Structure that defines the 48 byte NTP packet protocol.
-    typedef guchar uint8_t;
-    typedef guint uint32_t;
-    typedef struct
-    {
-        uint8_t li_vn_mode;      // Eight bits. li, vn, and mode.
-                     // li.   Two bits.   Leap indicator.
-                     // vn.   Three bits. Version number of the protocol.
-                     // mode. Three bits. Client will pick mode 3 for client.
+	// Structure that defines the 48 byte NTP packet protocol.
+	typedef guchar uint8_t;
+	typedef guint uint32_t;
+	typedef struct
+	{
+		uint8_t li_vn_mode;      // Eight bits. li, vn, and mode.
+					 // li.   Two bits.   Leap indicator.
+					 // vn.   Three bits. Version number of the protocol.
+					 // mode. Three bits. Client will pick mode 3 for client.
 
-        uint8_t stratum;         // Eight bits. Stratum level of the local clock.
-        uint8_t poll;            // Eight bits. Maximum interval between successive messages.
-        uint8_t precision;       // Eight bits. Precision of the local clock.
+		uint8_t stratum;         // Eight bits. Stratum level of the local clock.
+		uint8_t poll;            // Eight bits. Maximum interval between successive messages.
+		uint8_t precision;       // Eight bits. Precision of the local clock.
 
-        uint32_t rootDelay;      // 32 bits. Total round trip delay time.
-        uint32_t rootDispersion; // 32 bits. Max error aloud from primary clock source.
-        uint32_t refId;          // 32 bits. Reference clock identifier.
+		uint32_t rootDelay;      // 32 bits. Total round trip delay time.
+		uint32_t rootDispersion; // 32 bits. Max error aloud from primary clock source.
+		uint32_t refId;          // 32 bits. Reference clock identifier.
 
-        uint32_t refTm_s;        // 32 bits. Reference time-stamp seconds.
-        uint32_t refTm_f;        // 32 bits. Reference time-stamp fraction of a second.
+		uint32_t refTm_s;        // 32 bits. Reference time-stamp seconds.
+		uint32_t refTm_f;        // 32 bits. Reference time-stamp fraction of a second.
 
-        uint32_t origTm_s;       // 32 bits. Originate time-stamp seconds.
-        uint32_t origTm_f;       // 32 bits. Originate time-stamp fraction of a second.
+		uint32_t origTm_s;       // 32 bits. Originate time-stamp seconds.
+		uint32_t origTm_f;       // 32 bits. Originate time-stamp fraction of a second.
 
-        uint32_t rxTm_s;         // 32 bits. Received time-stamp seconds.
-        uint32_t rxTm_f;         // 32 bits. Received time-stamp fraction of a second.
+		uint32_t rxTm_s;         // 32 bits. Received time-stamp seconds.
+		uint32_t rxTm_f;         // 32 bits. Received time-stamp fraction of a second.
 
-        uint32_t txTm_s;         // 32 bits and the most important field the client cares about. Transmit time-stamp seconds.
-        uint32_t txTm_f;         // 32 bits. Transmit time-stamp fraction of a second.
+		uint32_t txTm_s;         // 32 bits and the most important field the client cares about. Transmit time-stamp seconds.
+		uint32_t txTm_f;         // 32 bits. Transmit time-stamp fraction of a second.
 
-    } ntp_packet;              // Total: 384 bits or 48 bytes.
+	} ntp_packet;              // Total: 384 bits or 48 bytes.
 
-    // Create and zero out the packet. All 48 bytes worth.
-    ntp_packet packet = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    memset( &packet, 0, sizeof( ntp_packet ) );
+	// Create and zero out the packet. All 48 bytes worth.
+	ntp_packet packet = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	memset( &packet, 0, sizeof( ntp_packet ) );
 
-    // Set the first byte's bits to 00,011,011 for li = 0, vn = 3, and mode = 3. The rest will be left set to zero.
-    *( ( char * ) &packet + 0 ) = 0x1b; // Represents 27 in base 10 or 00011011 in base 2.
+	// Set the first byte's bits to 00,011,011 for li = 0, vn = 3, and mode = 3. The rest will be left set to zero.
+	*( ( char * ) &packet + 0 ) = 0x1b; // Represents 27 in base 10 or 00011011 in base 2.
 
-    // Create a UDP socket, convert the host-name to an IP address, set the port number,
-    // connect to the server, send the packet, and then read in the return packet.
-    struct sockaddr_in serv_addr; // Server address data structure.
-    struct hostent *server;      // Server data structure.
+	// Create a UDP socket, convert the host-name to an IP address, set the port number,
+	// connect to the server, send the packet, and then read in the return packet.
+	struct sockaddr_in serv_addr; // Server address data structure.
+	struct hostent *server;      // Server data structure.
 
-    sockfd = socket( AF_INET, SOCK_DGRAM, IPPROTO_UDP ); // Create a UDP socket.
-    if ( sockfd < 0 ) {
-        printf( "ERROR opening socket" );
-        return FALSE;
-    }
+	sockfd = socket( AF_INET, SOCK_DGRAM, IPPROTO_UDP ); // Create a UDP socket.
+	if ( sockfd < 0 ) {
+		printf( "ERROR opening socket" );
+		return FALSE;
+	}
 
-    server = gethostbyname( host_name ); // Convert URL to IP.
-    if ( server == NULL ) {
-        printf( "ERROR, no such host" );
-        return FALSE;
-    }
+	server = gethostbyname( host_name ); // Convert URL to IP.
+	if ( server == NULL ) {
+		printf( "ERROR, no such host" );
+		return FALSE;
+	}
 
-    // Zero out the server address structure.
-    bzero( ( char* ) &serv_addr, sizeof( serv_addr ) );
-    serv_addr.sin_family = AF_INET;
+	// Zero out the server address structure.
+	bzero( ( char* ) &serv_addr, sizeof( serv_addr ) );
+	serv_addr.sin_family = AF_INET;
 
-    // Copy the server's IP address to the server address structure.
-    bcopy( ( char* )server->h_addr, ( char* ) &serv_addr.sin_addr.s_addr, server->h_length );
+	// Copy the server's IP address to the server address structure.
+	bcopy( ( char* )server->h_addr, ( char* ) &serv_addr.sin_addr.s_addr, server->h_length );
 
-    // Convert the port number integer to network big-endian style and save it to the server address structure.
-    serv_addr.sin_port = htons( portno );
+	// Convert the port number integer to network big-endian style and save it to the server address structure.
+	serv_addr.sin_port = htons( portno );
 
-    // Call up the server using its IP address and port number.
-    if ( connect( sockfd, ( struct sockaddr * ) &serv_addr, sizeof( serv_addr) ) < 0 ) {
-        printf( "ERROR connecting" );
-        return FALSE;
-    }
+	// Call up the server using its IP address and port number.
+	if ( connect( sockfd, ( struct sockaddr * ) &serv_addr, sizeof( serv_addr) ) < 0 ) {
+		printf( "ERROR connecting" );
+		return FALSE;
+	}
 
-    // Send it the NTP packet it wants. If n == -1, it failed.
-    n = write( sockfd, ( char* ) &packet, sizeof( ntp_packet ) );
-    if ( n < 0 ) {
-        printf( "ERROR writing to socket" );
-        return FALSE;
-    }
+	// Send it the NTP packet it wants. If n == -1, it failed.
+	n = write( sockfd, ( char* ) &packet, sizeof( ntp_packet ) );
+	if ( n < 0 ) {
+		printf( "ERROR writing to socket" );
+		return FALSE;
+	}
 
-    // Wait and receive the packet back from the server. If n == -1, it failed.
-    n = read( sockfd, ( char* ) &packet, sizeof( ntp_packet ) );
-    if ( n < 0 ) {
-        printf( "ERROR reading from socket" );
-        return FALSE;
-    }
+	// Wait and receive the packet back from the server. If n == -1, it failed.
+	n = read( sockfd, ( char* ) &packet, sizeof( ntp_packet ) );
+	if ( n < 0 ) {
+		printf( "ERROR reading from socket" );
+		return FALSE;
+	}
 
-    // These two fields contain the time-stamp seconds as the packet left the NTP server.
-    // The number of seconds correspond to the seconds passed since 1900.
-    // ntohl() converts the bit/byte order from the network's to host's "endianness".
-    packet.txTm_s = ntohl( packet.txTm_s ); // Time-stamp seconds.
-    packet.txTm_f = ntohl( packet.txTm_f ); // Time-stamp fraction of a second.
+	// These two fields contain the time-stamp seconds as the packet left the NTP server.
+	// The number of seconds correspond to the seconds passed since 1900.
+	// ntohl() converts the bit/byte order from the network's to host's "endianness".
+	packet.txTm_s = ntohl( packet.txTm_s ); // Time-stamp seconds.
+	packet.txTm_f = ntohl( packet.txTm_f ); // Time-stamp fraction of a second.
 
-    // Extract the 32 bits that represent the time-stamp seconds (since NTP epoch) from when the packet left the server.
-    // Subtract 70 years worth of seconds from the seconds since 1900.
-    // This leaves the seconds since the UNIX epoch of 1970.
-    // (1900)------------------(1970)**************************************(Time Packet Left the Server)
-    time_t txTm = ( time_t ) ( packet.txTm_s - NTP_TIMESTAMP_DELTA );
+	// Extract the 32 bits that represent the time-stamp seconds (since NTP epoch) from when the packet left the server.
+	// Subtract 70 years worth of seconds from the seconds since 1900.
+	// This leaves the seconds since the UNIX epoch of 1970.
+	// (1900)------------------(1970)**************************************(Time Packet Left the Server)
+	time_t txTm = ( time_t ) ( packet.txTm_s - NTP_TIMESTAMP_DELTA );
 
-    // Print the time we got from the server, accounting for local timezone and conversion from UTC time.
-    printf( "Time: %s %u:%u:%u\n", ctime( ( const time_t* ) &txTm ), (uint32_t)txTm, (uint32_t)packet.txTm_s, (uint32_t)packet.txTm_f);
-    
-    struct timeval  tv;
-    tv.tv_sec = txTm;
-    tv.tv_usec= packet.txTm_f / 1000;
-    settimeofday(&tv, NULL);
-    s_net_para._ntp.isUpdate = TRUE;
-    s_net_para._ntp.updateTime = txTm;
-    return TRUE;
+	// Print the time we got from the server, accounting for local timezone and conversion from UTC time.
+	printf( "Time: %s %u:%u:%u\n", ctime( ( const time_t* ) &txTm ), (uint32_t)txTm, (uint32_t)packet.txTm_s, (uint32_t)packet.txTm_f);
+	
+	struct timeval  tv;
+	tv.tv_sec = txTm;
+	tv.tv_usec= packet.txTm_f / 1000;
+	settimeofday(&tv, NULL);
+	s_net_para._ntp.isUpdate = TRUE;
+	s_net_para._ntp.updateTime = txTm;
+	return TRUE;
 }
 
 //
 static void inline signalCommander() {
-    g_log (TAG, G_LOG_LEVEL_DEBUG, "signalCommander");
-    g_mutex_lock (&s_lock);
-    g_cond_signal (&s_cond);
-    g_mutex_unlock (&s_lock);
+	g_log (TAG, G_LOG_LEVEL_DEBUG, "signalCommander");
+	g_mutex_lock (&s_lock);
+	g_cond_signal (&s_cond);
+	g_mutex_unlock (&s_lock);
 
 }
 gboolean seconds_rec_timeout(gpointer user_data) {
-    g_log (TAG, G_LOG_LEVEL_DEBUG, "rec data timeout %p", user_data);
-    if(user_data != NULL) {
-        if(((struct _cmd_list *)user_data)->resend > 0) {
-            struct _cmd_list * pcmd = (struct _cmd_list *)g_malloc0(sizeof(struct _cmd_list));
-            memcpy(pcmd, user_data, sizeof(struct _cmd_list));
-            pcmd->resend --;
-            g_log (TAG, G_LOG_LEVEL_DEBUG, "push the id(%d) back to queue:%d", pcmd->id, pcmd->resend);
-            // push the command back to queue
-            g_async_queue_lock(s_asyncQueue);
-            g_async_queue_push_unlocked(s_asyncQueue, pcmd);
-            g_async_queue_unlock(s_asyncQueue);
-        }
-    }
-    signalCommander();
-    s_failure ++;
-    s_to_rec_res = 0;
-    return FALSE;
+	g_log (TAG, G_LOG_LEVEL_DEBUG, "rec data timeout %p", user_data);
+	if(user_data != NULL) {
+		if(((struct _cmd_list *)user_data)->resend > 0) {
+			struct _cmd_list * pcmd = (struct _cmd_list *)g_malloc0(sizeof(struct _cmd_list));
+			memcpy(pcmd, user_data, sizeof(struct _cmd_list));
+			pcmd->resend --;
+			g_log (TAG, G_LOG_LEVEL_DEBUG, "push the id(%d) back to queue:%d", pcmd->id, pcmd->resend);
+			// push the command back to queue
+			g_async_queue_lock(s_asyncQueue);
+			g_async_queue_push_unlocked(s_asyncQueue, pcmd);
+			g_async_queue_unlock(s_asyncQueue);
+		}
+	}
+	signalCommander();
+	s_failure ++;
+	s_to_rec_res = 0;
+	return FALSE;
 }
 
 // save some sensor info for future
 void save_volt_to_db(guint id, guint ts, guint volt, guint rssi) {
-    
+	
 }
 
 //
@@ -612,12 +612,12 @@ void recovery_alarm_confirm_shadow(GSList  *argument_list) {
 }
 guchar host_channel_to_subG(guint channel)
 {
-    if(channel == 1)return 102;
-    else if(channel == 2)return 101;
-    else if(channel == 4)return 103;
-    else if(channel == 8)return 119;
-    else if(channel == 16)return 116;
-    else return 102;
+	if(channel == 1)return 102;
+	else if(channel == 2)return 101;
+	else if(channel == 4)return 103;
+	else if(channel == 8)return 119;
+	else if(channel == 16)return 116;
+	else return 102;
 }
 guchar subG_channel_to_host(guint channel) {
 	if(channel == 102) return 1;
@@ -629,24 +629,24 @@ guchar subG_channel_to_host(guint channel) {
 }
 guchar host_freq_to_subG(guint maxfreq)
 {
-    if(maxfreq == 100)return 6;
-    else if(maxfreq == 200)return 7;
-    else if(maxfreq == 500)return 8;
-    else if(maxfreq == 1000)return 9;
-    else if(maxfreq == 2000)return 10;
-    else if(maxfreq == 5000)return 11;
-    else if(maxfreq == 10000)return 12;
-    else if(maxfreq == 20000)return 13;
-    else return 9;
+	if(maxfreq == 100)return 6;
+	else if(maxfreq == 200)return 7;
+	else if(maxfreq == 500)return 8;
+	else if(maxfreq == 1000)return 9;
+	else if(maxfreq == 2000)return 10;
+	else if(maxfreq == 5000)return 11;
+	else if(maxfreq == 10000)return 12;
+	else if(maxfreq == 20000)return 13;
+	else return 9;
 }
 guchar host_nums_to_subG(guint nums)
 {
-    if(nums == 256)return 8;
-    else if(nums == 512)return 9;
-    else if(nums == 1024)return 10;
-    else if(nums == 2048)return 11;
-    else if(nums == 4096)return 12;
-    else return 10;
+	if(nums == 256)return 8;
+	else if(nums == 512)return 9;
+	else if(nums == 1024)return 10;
+	else if(nums == 2048)return 11;
+	else if(nums == 4096)return 12;
+	else return 10;
 }
 
 struct _sensor_info_st {
@@ -657,7 +657,7 @@ struct _sensor_info_st {
 };
 gboolean CreateSensorJsonInfo(void *pData, char **pjson ) {
 /*{
-    "gid":"11-22-33-44",
+	"gid":"11-22-33-44",
 	"message":"sensorinfo",
 	"id":100,
 	"version":20170704,
@@ -668,29 +668,29 @@ gboolean CreateSensorJsonInfo(void *pData, char **pjson ) {
 	struct _sensor_info_st *_dat = (struct _sensor_info_st*) pData;
 	gboolean ret = FALSE;
 	pJsonRoot = cJSON_CreateObject();
-    if(NULL == pJsonRoot){
-        goto json_err;
-    }
-    cJSON_AddStringToObject(pJsonRoot, "gid", s_gid);
-    cJSON_AddStringToObject(pJsonRoot, "message", "sensorinfo");
-    cJSON_AddNumberToObject(pJsonRoot, "sid", _dat->sid);
-    char *ver = NULL;
-    asprintf(&ver, "%X", _dat->ver);
-    cJSON_AddStringToObject(pJsonRoot, "version", ver);
-    free(ver);
-    cJSON_AddNumberToObject(pJsonRoot, "volt", _dat->volt);
-    cJSON_AddNumberToObject(pJsonRoot, "rssi", _dat->rssi);
-    
-    char *json = cJSON_Print(pJsonRoot);
-    if(json == NULL){
-        goto json_err;
-    }
-    asprintf(pjson, "%s", json);
-    cJSON_free(json);
-    ret = TRUE;
+	if(NULL == pJsonRoot){
+		goto json_err;
+	}
+	cJSON_AddStringToObject(pJsonRoot, "gid", s_gid);
+	cJSON_AddStringToObject(pJsonRoot, "message", "sensorinfo");
+	cJSON_AddNumberToObject(pJsonRoot, "sid", _dat->sid);
+	char *ver = NULL;
+	asprintf(&ver, "%X", _dat->ver);
+	cJSON_AddStringToObject(pJsonRoot, "version", ver);
+	free(ver);
+	cJSON_AddNumberToObject(pJsonRoot, "volt", _dat->volt);
+	cJSON_AddNumberToObject(pJsonRoot, "rssi", _dat->rssi);
+	
+	char *json = cJSON_Print(pJsonRoot);
+	if(json == NULL){
+		goto json_err;
+	}
+	asprintf(pjson, "%s", json);
+	cJSON_free(json);
+	ret = TRUE;
 json_err:
 	cJSON_Delete(pJsonRoot);
-    //printf("%s\n", pjson);
+	//printf("%s\n", pjson);
 	return ret;
 }
 #if 0
@@ -725,20 +725,20 @@ gboolean sensor_data_info_to_mqtt(void *pData) {
 	cJSON * pJsonRoot = NULL;
 	cJSON *node;
 	struct __data_st *_dat = (struct __data_st *)pData;
-    struct cJSON_NumOpts opts = {
+	struct cJSON_NumOpts opts = {
 		.decimal_places = 4,
 		.format = NULL,
 	};
 	gboolean ret = FALSE;
 	pJsonRoot = cJSON_CreateObject();
-    if(NULL == pJsonRoot){
-        goto json_err;
-    }
-    cJSON_AddStringToObject(pJsonRoot, "gid", s_gid);
-    cJSON_AddStringToObject(pJsonRoot, "message", "data");
-    cJSON_AddNumberToObject(pJsonRoot, "sid", _dat->sid);
-    cJSON_AddNumberToObject(pJsonRoot, "timestamp", _dat->ts);
-    cJSON *pNodeBatt = cJSON_CreateObject();
+	if(NULL == pJsonRoot){
+		goto json_err;
+	}
+	cJSON_AddStringToObject(pJsonRoot, "gid", s_gid);
+	cJSON_AddStringToObject(pJsonRoot, "message", "data");
+	cJSON_AddNumberToObject(pJsonRoot, "sid", _dat->sid);
+	cJSON_AddNumberToObject(pJsonRoot, "timestamp", _dat->ts);
+	cJSON *pNodeBatt = cJSON_CreateObject();
 		cJSON_AddNumberToObject(pNodeBatt, "volt", _dat->volt);
 		cJSON_AddNumberToObject(pNodeBatt, "alarm", 0);
 		cJSON_AddItemToObject(pJsonRoot, "batt", pNodeBatt);
@@ -789,17 +789,17 @@ gboolean sensor_data_info_to_mqtt(void *pData) {
 		cJSON_AddItemToObject(pNodeData, "value", pJsonValue);
 	cJSON_AddItemToObject(pJsonRoot, "data", pNodeData);
 
-    char *json = cJSON_Print(pJsonRoot);
-    if(json == NULL){
-        goto json_err;
-    }
+	char *json = cJSON_Print(pJsonRoot);
+	if(json == NULL){
+		goto json_err;
+	}
 	//printf(json);
 	if(mosquitto_publish(s_mosq, &s_mid, "/sensors", strlen(json), json, 2, false)) {
 		ret = TRUE;
 	}
 	cJSON_free(json);
 json_err:
-    cJSON_Delete(pJsonRoot);
+	cJSON_Delete(pJsonRoot);
 	return ret;
 }
 
@@ -954,8 +954,8 @@ void handle_sensor_data(struct _cache_st  *pCache) {
 	// get idx corresponding parameter
 	guint len = g_slist_length(s_sensor_list);
 	for(int i=0; i<len; i++) {
-            struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
-            if(pCache->id == p->id) {
+			struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
+			if(pCache->id == p->id) {
 				if(pca->idx == 0) {
 					break;					// temporary sample, not need alarm check
 				}else if(pca->idx & 0xF0) {
@@ -990,11 +990,11 @@ void handle_sensor_data(struct _cache_st  *pCache) {
 #define INDEX
 guint s_length = 0;
 static gpointer reader_loop_thread(gpointer user_data) {
-    guchar buf[1024];
-    size_t c = 1, r;
-    gint i = 0;
-    gint status = HEAD;
-    gboolean unknow_cmd = FALSE;
+	guchar buf[1024];
+	size_t c = 1, r;
+	gint i = 0;
+	gint status = HEAD;
+	gboolean unknow_cmd = FALSE;
 #define PK_LEN buf[8]
 #define PK_VOLT (buf[9]+250)
 #define PK_RSSI buf[14]
@@ -1004,10 +1004,10 @@ static gpointer reader_loop_thread(gpointer user_data) {
 #define PK_FLAG buf[13]
 #define MAKE_SHORT(pos) (p[pos]|(p[pos+1]<<8))
 #define MAKE_LONG(pos) (p[pos]|(p[pos+1]<<8)|(p[pos+2]<<16)|(p[pos+3]<<24))
-    while((r=pipe_pop(s_c, &buf[i], c))){
-        //g_log (TAG, G_LOG_LEVEL_DEBUG, "%d %d %d %X", status, (gint)r, i, buf[i]);
-        // receive head struct, 16bytes
-        switch(status) {
+	while((r=pipe_pop(s_c, &buf[i], c))){
+		//g_log (TAG, G_LOG_LEVEL_DEBUG, "%d %d %d %X", status, (gint)r, i, buf[i]);
+		// receive head struct, 16bytes
+		switch(status) {
 			case HEAD: {
 				if(i==0 && buf[i] == 0x55){i++; continue;}
 				else if(i==1 && buf[i] == 0xAA){i++; continue;}
@@ -1211,53 +1211,53 @@ static gpointer reader_loop_thread(gpointer user_data) {
 				break;
 			}
 		}
-    }
-    return GINT_TO_POINTER(-1);
+	}
+	return GINT_TO_POINTER(-1);
 }
 
 //
 // parse sensor JSON format configure
 int ParseSensorInfoFromJson(char *json, int length)
 {
-    int ret = -1;
-    cJSON *pJsonRoot = NULL, *pJSensor, *_Jsensor, *pJnode;
-    cJSON *pJSlot, *_Jslot;
-    cJSON *pJArgs, *_Jargs;
-    cJSON *pJAlarm, *_Jalarm;
-    cJSON *pJLimit, *_Jlimit;
-    cJSON *pJConfirm, *_Jconfirm;
-    int iSize, i;
-    int jSize, j;
-    int kSize, k;
-    int mSize, m;
-    int lSize, l;
-    int nSize, n;
-    struct _sensor_st *pSensorTmp;
-    struct _active_slot_st *pSlotTmp;
-    struct _argument_st *pArgsTmp;
-    struct _alarm_st *pAlarmTmp;
-    struct _limit_st *pLimitTmp;
-    struct _confirm_st *pConfirmTmp;
-    
-    if(json == NULL)goto outerr;
-    
-    pJsonRoot = cJSON_Parse(json);
-    if(pJsonRoot == NULL){
+	int ret = -1;
+	cJSON *pJsonRoot = NULL, *pJSensor, *_Jsensor, *pJnode;
+	cJSON *pJSlot, *_Jslot;
+	cJSON *pJArgs, *_Jargs;
+	cJSON *pJAlarm, *_Jalarm;
+	cJSON *pJLimit, *_Jlimit;
+	cJSON *pJConfirm, *_Jconfirm;
+	int iSize, i;
+	int jSize, j;
+	int kSize, k;
+	int mSize, m;
+	int lSize, l;
+	int nSize, n;
+	struct _sensor_st *pSensorTmp;
+	struct _active_slot_st *pSlotTmp;
+	struct _argument_st *pArgsTmp;
+	struct _alarm_st *pAlarmTmp;
+	struct _limit_st *pLimitTmp;
+	struct _confirm_st *pConfirmTmp;
+	
+	if(json == NULL)goto outerr;
+	
+	pJsonRoot = cJSON_Parse(json);
+	if(pJsonRoot == NULL){
 		g_log (TAG, G_LOG_LEVEL_DEBUG, "is not a json file");
 		goto outerr;
-    }
-    
-    pJSensor = cJSON_GetObjectItem(pJsonRoot, "sensors");
-    iSize = cJSON_GetArraySize(pJSensor);
-    printf("---- %s\n", cJSON_Print(pJsonRoot));
-    for(i = 0; i < iSize; i++){
-        _Jsensor = cJSON_GetArrayItem(pJSensor, i);
-        if(_Jsensor == NULL){
-            continue;
-        }
-        // sensor info
-        pSensorTmp = g_malloc0(sizeof(struct _sensor_st));
-        if((pJnode = cJSON_GetObjectItem(_Jsensor, "id")) !=NULL)
+	}
+	
+	pJSensor = cJSON_GetObjectItem(pJsonRoot, "sensors");
+	iSize = cJSON_GetArraySize(pJSensor);
+	printf("---- %s\n", cJSON_Print(pJsonRoot));
+	for(i = 0; i < iSize; i++){
+		_Jsensor = cJSON_GetArrayItem(pJSensor, i);
+		if(_Jsensor == NULL){
+			continue;
+		}
+		// sensor info
+		pSensorTmp = g_malloc0(sizeof(struct _sensor_st));
+		if((pJnode = cJSON_GetObjectItem(_Jsensor, "id")) !=NULL)
 			pSensorTmp->id = pJnode->valueint;
 		if((pJnode = cJSON_GetObjectItem(_Jsensor, "group")) != NULL)
 			pSensorTmp->group = pJnode->valueint;
@@ -1267,73 +1267,73 @@ int ParseSensorInfoFromJson(char *json, int length)
 			pSensorTmp->triger = pJnode->valueint;
 		if((pJnode = cJSON_GetObjectItem(_Jsensor, "raw")) != NULL)
 			pSensorTmp->raw = pJnode->valueint;
-        //printf("---- %d\n", pSensorTmp->id);
-        pJSlot = cJSON_GetObjectItem(_Jsensor, "active_slot");
-        jSize = cJSON_GetArraySize(pJSlot);
-        for(j = 0; j < jSize; j++){
-            _Jslot = cJSON_GetArrayItem(pJSlot, j);
-            if(_Jslot == NULL){
-                continue;
-            }
-            
-            pSlotTmp = g_malloc0(sizeof(struct _active_slot_st));
+		//printf("---- %d\n", pSensorTmp->id);
+		pJSlot = cJSON_GetObjectItem(_Jsensor, "active_slot");
+		jSize = cJSON_GetArraySize(pJSlot);
+		for(j = 0; j < jSize; j++){
+			_Jslot = cJSON_GetArrayItem(pJSlot, j);
+			if(_Jslot == NULL){
+				continue;
+			}
+			
+			pSlotTmp = g_malloc0(sizeof(struct _active_slot_st));
 			if((pJnode = cJSON_GetObjectItem(_Jslot, "start")) != NULL)
 				pSlotTmp->start = pJnode->valueint;
-            if((pJnode = cJSON_GetObjectItem(_Jslot, "end")) != NULL)
+			if((pJnode = cJSON_GetObjectItem(_Jslot, "end")) != NULL)
 				pSlotTmp->end = pJnode->valueint;
-            pSensorTmp->active_list = g_slist_append(pSensorTmp->active_list, pSlotTmp);
-            //printf("---- %d %d\n", pSlotTmp->start,  pSlotTmp->end);
-        }
+			pSensorTmp->active_list = g_slist_append(pSensorTmp->active_list, pSlotTmp);
+			//printf("---- %d %d\n", pSlotTmp->start,  pSlotTmp->end);
+		}
 
-        pJArgs = cJSON_GetObjectItem(_Jsensor, "arguments");
-        kSize = cJSON_GetArraySize(pJArgs);
-        for(k = 0; k < kSize; k++){
-            _Jargs = cJSON_GetArrayItem(pJArgs, k);
-            if(_Jargs == NULL){
-                continue;
-            }
-            pArgsTmp = g_malloc0(sizeof(struct _argument_st));
-            if((pJnode = cJSON_GetObjectItem(_Jargs, "channel")) != NULL)
+		pJArgs = cJSON_GetObjectItem(_Jsensor, "arguments");
+		kSize = cJSON_GetArraySize(pJArgs);
+		for(k = 0; k < kSize; k++){
+			_Jargs = cJSON_GetArrayItem(pJArgs, k);
+			if(_Jargs == NULL){
+				continue;
+			}
+			pArgsTmp = g_malloc0(sizeof(struct _argument_st));
+			if((pJnode = cJSON_GetObjectItem(_Jargs, "channel")) != NULL)
 				pArgsTmp->channel = pJnode->valueint;
-            if((pJnode = cJSON_GetObjectItem(_Jargs, "freq")) != NULL)
+			if((pJnode = cJSON_GetObjectItem(_Jargs, "freq")) != NULL)
 				pArgsTmp->freq = pJnode->valueint;
-            if((pJnode = cJSON_GetObjectItem(_Jargs, "nums")) != NULL)
+			if((pJnode = cJSON_GetObjectItem(_Jargs, "nums")) != NULL)
 				pArgsTmp->nums = pJnode->valueint;
-            //printf("---- %d %d %d\n", pArgsTmp->channel,  pArgsTmp->freq, pArgsTmp->nums);
-            
-            pJAlarm = cJSON_GetObjectItem(_Jargs, "alarm");
-            mSize = cJSON_GetArraySize(pJAlarm);
-            for(m=0; m<mSize; m++) {
-                _Jalarm = cJSON_GetArrayItem(pJAlarm, m);
-                if(_Jalarm == NULL){
-                    continue;
-                }
-                pAlarmTmp = g_malloc0(sizeof(struct _alarm_st));
-                if((pJnode = cJSON_GetObjectItem(_Jalarm, "type")) != NULL)
+			//printf("---- %d %d %d\n", pArgsTmp->channel,  pArgsTmp->freq, pArgsTmp->nums);
+			
+			pJAlarm = cJSON_GetObjectItem(_Jargs, "alarm");
+			mSize = cJSON_GetArraySize(pJAlarm);
+			for(m=0; m<mSize; m++) {
+				_Jalarm = cJSON_GetArrayItem(pJAlarm, m);
+				if(_Jalarm == NULL){
+					continue;
+				}
+				pAlarmTmp = g_malloc0(sizeof(struct _alarm_st));
+				if((pJnode = cJSON_GetObjectItem(_Jalarm, "type")) != NULL)
 					pAlarmTmp->type = pJnode->valueint;
 				if((pJnode = cJSON_GetObjectItem(_Jalarm, "source")) != NULL)
 					pAlarmTmp->src = pJnode->valueint;
-                //printf("---- %d %d\n", pAlarmTmp->type,  pAlarmTmp->src);
-                
-                pJLimit = cJSON_GetObjectItem(_Jalarm, "limit");
-                lSize = cJSON_GetArraySize(pJLimit);
-                if(lSize > 4) lSize = 4;
-                for(l = 0; l < lSize; l++){
-                    _Jlimit = cJSON_GetArrayItem(pJLimit, l);
-                    if(_Jlimit == NULL){
-                        continue;
-                    }
-                    pLimitTmp = g_malloc0(sizeof(struct _limit_st));
-                    if((pJnode = cJSON_GetObjectItem(_Jlimit, "low")) != NULL)
+				//printf("---- %d %d\n", pAlarmTmp->type,  pAlarmTmp->src);
+				
+				pJLimit = cJSON_GetObjectItem(_Jalarm, "limit");
+				lSize = cJSON_GetArraySize(pJLimit);
+				if(lSize > 4) lSize = 4;
+				for(l = 0; l < lSize; l++){
+					_Jlimit = cJSON_GetArrayItem(pJLimit, l);
+					if(_Jlimit == NULL){
+						continue;
+					}
+					pLimitTmp = g_malloc0(sizeof(struct _limit_st));
+					if((pJnode = cJSON_GetObjectItem(_Jlimit, "low")) != NULL)
 						pLimitTmp->low = pJnode->valuedouble;
 					if((pJnode = cJSON_GetObjectItem(_Jlimit, "high")) != NULL)
 						pLimitTmp->high = pJnode->valuedouble;
-                    //printf("---- %f %f\n", pLimitTmp->low ,  pLimitTmp->high);
-                    pAlarmTmp->limit_list = g_slist_append(pAlarmTmp->limit_list, pLimitTmp);
-                }
-                pArgsTmp->alarm_list = g_slist_append(pArgsTmp->alarm_list, pAlarmTmp);
-            }
-            pJConfirm = cJSON_GetObjectItem(_Jargs, "confirm");
+					//printf("---- %f %f\n", pLimitTmp->low ,  pLimitTmp->high);
+					pAlarmTmp->limit_list = g_slist_append(pAlarmTmp->limit_list, pLimitTmp);
+				}
+				pArgsTmp->alarm_list = g_slist_append(pArgsTmp->alarm_list, pAlarmTmp);
+			}
+			pJConfirm = cJSON_GetObjectItem(_Jargs, "confirm");
 			if(pJConfirm != NULL) {
 				pConfirmTmp = g_malloc0(sizeof(struct _confirm_st));
 				if((pJnode = cJSON_GetObjectItem(pJConfirm, "times")) != NULL) {
@@ -1346,53 +1346,53 @@ int ParseSensorInfoFromJson(char *json, int length)
 				}
 				pArgsTmp->confirm = pConfirmTmp;
 			}
-            pSensorTmp->argument_list = g_slist_append(pSensorTmp->argument_list, pArgsTmp);
-        }
-        s_sensor_list = g_slist_append(s_sensor_list, pSensorTmp);
-    }
-    // dump all sensor info
+			pSensorTmp->argument_list = g_slist_append(pSensorTmp->argument_list, pArgsTmp);
+		}
+		s_sensor_list = g_slist_append(s_sensor_list, pSensorTmp);
+	}
+	// dump all sensor info
 #if 1
-    {
-        guint len = g_slist_length(s_sensor_list);
-        for(int i=0; i<len; i++) {
-            struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
-            printf("id: %d\n", p->id);
-            
-            guint len1 = g_slist_length(p->active_list);
-            for(int j=0; j<len1; j++) {
-                struct _active_slot_st *p1 = g_slist_nth_data (p->active_list, j);
-                printf("  start: %d end: %d\n", p1->start, p1->end);
-            }
-            
-            guint len2 = g_slist_length(p->argument_list);
-            for(int j=0; j<len2; j++) {
-                struct _argument_st *p2 = g_slist_nth_data (p->argument_list, j);
-                printf("  channel: %d freq: %d nums: %d\n", p2->channel, p2->freq, p2->nums);
-                
-                guint len3 = g_slist_length(p2->alarm_list);
-                for(int k=0; k<len3; k++) {
-                    struct _alarm_st *p3 = g_slist_nth_data (p2->alarm_list, k);
-                    printf("    type: %d src: %d\n", p3->type, p3->src);
-                    
-                    guint len4 = g_slist_length(p3->limit_list);
-                    //printf("    len4: %d\n", len4);
-                    for(int n=0; n<len4; n++) {
+	{
+		guint len = g_slist_length(s_sensor_list);
+		for(int i=0; i<len; i++) {
+			struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
+			printf("id: %d\n", p->id);
+			
+			guint len1 = g_slist_length(p->active_list);
+			for(int j=0; j<len1; j++) {
+				struct _active_slot_st *p1 = g_slist_nth_data (p->active_list, j);
+				printf("  start: %d end: %d\n", p1->start, p1->end);
+			}
+			
+			guint len2 = g_slist_length(p->argument_list);
+			for(int j=0; j<len2; j++) {
+				struct _argument_st *p2 = g_slist_nth_data (p->argument_list, j);
+				printf("  channel: %d freq: %d nums: %d\n", p2->channel, p2->freq, p2->nums);
+				
+				guint len3 = g_slist_length(p2->alarm_list);
+				for(int k=0; k<len3; k++) {
+					struct _alarm_st *p3 = g_slist_nth_data (p2->alarm_list, k);
+					printf("    type: %d src: %d\n", p3->type, p3->src);
+					
+					guint len4 = g_slist_length(p3->limit_list);
+					//printf("    len4: %d\n", len4);
+					for(int n=0; n<len4; n++) {
 						struct _limit_st *p4 = g_slist_nth_data(p3->limit_list, n);
 						printf("    high: %f low: %f\n", p4->high, p4->low);
 					}
-                    
-                }
-                if(p2->confirm){
+					
+				}
+				if(p2->confirm){
 					printf("    times: %d raw: %d\n", p2->confirm->times, p2->confirm->raw);
 				}
-            }
-        }
-    }
+			}
+		}
+	}
 #endif
-    ret = 0;
+	ret = 0;
 outerr:
-    cJSON_Delete(pJsonRoot);
-    return ret;  
+	cJSON_Delete(pJsonRoot);
+	return ret;  
 }
 
 void RemoveSensorLIst()
@@ -1419,273 +1419,273 @@ void RemoveSensorLIst()
 }
 //
 void initCache() {
-    guint cnt = g_slist_length(s_sensor_list);
-    s_cache = g_malloc0(sizeof(struct _cache_st) * cnt);
-    for(guint i=0; i<cnt; i++) {
-        struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
-        s_cache[i].id = p->id;
-        guint cnt2 = g_slist_length(p->argument_list);
-        for(int j=0; j<cnt2; j++) {
-            struct _argument_st *p2 = g_slist_nth_data (p->argument_list, j);
-            s_cache[i].channel = p2->channel;
-            s_cache[i].address[1 + j] = GPOINTER_TO_UINT(g_malloc((INFO_LEN + p2->nums) * 4)); //pbuf[0] hold back for temporary, 16 for data info
-            //printf("id: %d channel:%d buf:%p\n", s_cache[i].id, s_cache[i].channel, s_cache[i].pbuf[j]);
-        }
-        s_cache[i].address[0] = GPOINTER_TO_UINT(g_malloc((INFO_LEN + 4096) * 4)); // temporary sample MAX nums=4096
-    }
+	guint cnt = g_slist_length(s_sensor_list);
+	s_cache = g_malloc0(sizeof(struct _cache_st) * cnt);
+	for(guint i=0; i<cnt; i++) {
+		struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
+		s_cache[i].id = p->id;
+		guint cnt2 = g_slist_length(p->argument_list);
+		for(int j=0; j<cnt2; j++) {
+			struct _argument_st *p2 = g_slist_nth_data (p->argument_list, j);
+			s_cache[i].channel = p2->channel;
+			s_cache[i].address[1 + j] = GPOINTER_TO_UINT(g_malloc((INFO_LEN + p2->nums) * 4)); //pbuf[0] hold back for temporary, 16 for data info
+			//printf("id: %d channel:%d buf:%p\n", s_cache[i].id, s_cache[i].channel, s_cache[i].pbuf[j]);
+		}
+		s_cache[i].address[0] = GPOINTER_TO_UINT(g_malloc((INFO_LEN + 4096) * 4)); // temporary sample MAX nums=4096
+	}
 }
 //
 void deinitCache() {
-    guint cnt = g_slist_length(s_sensor_list);
-    for(guint i=0; i<cnt; i++) {
-        struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
-        guint cnt2 = g_slist_length(p->argument_list);
-        for(int j=0; j<cnt2 + 1; j++) {
-            g_free(GUINT_TO_POINTER(s_cache[i].address[j]));
-        }
-    }
-    g_free(s_cache);
+	guint cnt = g_slist_length(s_sensor_list);
+	for(guint i=0; i<cnt; i++) {
+		struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
+		guint cnt2 = g_slist_length(p->argument_list);
+		for(int j=0; j<cnt2 + 1; j++) {
+			g_free(GUINT_TO_POINTER(s_cache[i].address[j]));
+		}
+	}
+	g_free(s_cache);
 }
 
 //
 struct _cache_st *findIdCache(guint id) {
-    guint cnt = g_slist_length(s_sensor_list);
-    //g_log (TAG, G_LOG_LEVEL_DEBUG, "id=%d", id);
-    for(guint i = 0; i < cnt; i++) {
-        if(s_cache[i].id == id) {
-            return &s_cache[i];
-        }
-    }
-    return NULL;
+	guint cnt = g_slist_length(s_sensor_list);
+	//g_log (TAG, G_LOG_LEVEL_DEBUG, "id=%d", id);
+	for(guint i = 0; i < cnt; i++) {
+		if(s_cache[i].id == id) {
+			return &s_cache[i];
+		}
+	}
+	return NULL;
 }
 
 //
 // when application launch or a aquire cycle start, we need check if sensor should
 // update argument or update firmware
 gboolean checkSpecifySensorStatus(gint id, gchar *key){
-    GError *error = NULL;
-    GKeyFile *keyfile;
-    gchar *group;
-    gint value = 0;
-    gboolean ret = FALSE;
-    
-    if(!g_file_test(SENSOR_STATUS_FILE_PATH, G_FILE_TEST_EXISTS)) {
-        return ret;
-    }
-    asprintf(&group, "id_%d", id);
-    keyfile = g_key_file_new();
-    if(g_key_file_load_from_file(keyfile, SENSOR_STATUS_FILE_PATH, 0, &error)) {
-        if(g_key_file_has_group(keyfile, group)) {
-            value = g_key_file_get_integer(keyfile, group, key, &error);
-            g_log (TAG, G_LOG_LEVEL_DEBUG, "id %d %s status is %d", id, key, value);
-            if(error != NULL){
-                g_error_free(error);
-            } else {
-                ret = (value == 1)?TRUE:FALSE;
-            }
-        }
-    }else {
-        g_log (TAG, G_LOG_LEVEL_DEBUG, "load status fail:%d %s", error->code, error->message);
-        g_error_free(error);
-    }
-    g_key_file_free (keyfile);
-    free(group);
-    
-    return ret;
+	GError *error = NULL;
+	GKeyFile *keyfile;
+	gchar *group;
+	gint value = 0;
+	gboolean ret = FALSE;
+	
+	if(!g_file_test(SENSOR_STATUS_FILE_PATH, G_FILE_TEST_EXISTS)) {
+		return ret;
+	}
+	asprintf(&group, "id_%d", id);
+	keyfile = g_key_file_new();
+	if(g_key_file_load_from_file(keyfile, SENSOR_STATUS_FILE_PATH, 0, &error)) {
+		if(g_key_file_has_group(keyfile, group)) {
+			value = g_key_file_get_integer(keyfile, group, key, &error);
+			g_log (TAG, G_LOG_LEVEL_DEBUG, "id %d %s status is %d", id, key, value);
+			if(error != NULL){
+				g_error_free(error);
+			} else {
+				ret = (value == 1)?TRUE:FALSE;
+			}
+		}
+	}else {
+		g_log (TAG, G_LOG_LEVEL_DEBUG, "load status fail:%d %s", error->code, error->message);
+		g_error_free(error);
+	}
+	g_key_file_free (keyfile);
+	free(group);
+	
+	return ret;
 }
 //
 // after got sensor configure form server, we need save the status
 // 
 void createSensorStatus() {
-    GError *error = NULL;
-    GKeyFile *keyfile;
-    gchar *data;
-    gchar *group;
-    
-    if(g_file_test(SENSOR_STATUS_FILE_PATH, G_FILE_TEST_EXISTS)) {
-        g_remove(SENSOR_STATUS_FILE_PATH);
-    }
-    
-    keyfile = g_key_file_new();
-    guint len = g_slist_length(s_sensor_list);
-    for(int i=0; i<len; i++) {
-        struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
-        asprintf(&group, "id_%d", p->id);
-        g_key_file_set_integer(keyfile, group, "id", p->id);
-        g_key_file_set_integer(keyfile, group, "dlarg", 1);
-        g_key_file_set_integer(keyfile, group, "dlfw", 0);
-        free(group);
-    }
-    g_key_file_save_to_file(keyfile, SENSOR_STATUS_FILE_PATH, &error);
-    if(error != NULL) {
-        g_log (TAG, G_LOG_LEVEL_DEBUG, "save fail:%d %s", error->code, error->message);
-        g_free(error);
-    }
-    
-    g_key_file_free (keyfile);
+	GError *error = NULL;
+	GKeyFile *keyfile;
+	gchar *data;
+	gchar *group;
+	
+	if(g_file_test(SENSOR_STATUS_FILE_PATH, G_FILE_TEST_EXISTS)) {
+		g_remove(SENSOR_STATUS_FILE_PATH);
+	}
+	
+	keyfile = g_key_file_new();
+	guint len = g_slist_length(s_sensor_list);
+	for(int i=0; i<len; i++) {
+		struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
+		asprintf(&group, "id_%d", p->id);
+		g_key_file_set_integer(keyfile, group, "id", p->id);
+		g_key_file_set_integer(keyfile, group, "dlarg", 1);
+		g_key_file_set_integer(keyfile, group, "dlfw", 0);
+		free(group);
+	}
+	g_key_file_save_to_file(keyfile, SENSOR_STATUS_FILE_PATH, &error);
+	if(error != NULL) {
+		g_log (TAG, G_LOG_LEVEL_DEBUG, "save fail:%d %s", error->code, error->message);
+		g_free(error);
+	}
+	
+	g_key_file_free (keyfile);
 }
 //
 //
 gboolean recreateArgumentCommand(gboolean isAll)
 {
-    guchar *data;
-    gboolean ret = FALSE;
-    
-    guint len = g_slist_length(s_sensor_list);
-    for(int i=0; i<len; i++) {
-        struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
-        if(!checkSpecifySensorStatus(p->id, "dlarg")){
-            if(isAll)continue;
-            else break;
-        }
-        data = g_malloc0(9);
-        memcpy(data, &p->id, 2);
-        {
-            guint len2 = g_slist_length(p->argument_list);
-            for(int j=0; j<len2; j++) {
-                struct _argument_st *p2 = g_slist_nth_data (p->argument_list, j);
-                g_log (TAG, G_LOG_LEVEL_DEBUG, 
-                       "  channel = %d freq = %d, nums = %d",
-                       p2->channel, p2->freq, p2->nums);
-                data[2] |= p2->channel; // 1, 2, 4
-                if(p2->channel & 0x01){
-                    data[3] = p2->freq;
-                    data[4] = p2->nums;
-                }else if(p2->channel & 0x02){
-                    data[5] = p2->freq;
-                    data[6] = p2->nums;
-                }else if(p2->channel & 0x04){
-                    data[7] = p2->freq;
-                    data[8] = p2->nums;
-                }
-                // where group??
-                data[9] = p->group;
-            }
-        }
-        struct _cmd_list *pcmd = (struct _cmd_list *)
-                                g_malloc0(sizeof(struct _cmd_list));
-        g_async_queue_lock(s_asyncQueue);
-        pcmd->id = p->id;
-        pcmd->cmd = 0x13; // config arg
-        pcmd->data = data;
-        g_async_queue_push_unlocked(s_asyncQueue, pcmd);
-        g_async_queue_unlock(s_asyncQueue);
-        
-        ret = TRUE;
-        if(!isAll)break;
-    }  
-    return ret;
+	guchar *data;
+	gboolean ret = FALSE;
+	
+	guint len = g_slist_length(s_sensor_list);
+	for(int i=0; i<len; i++) {
+		struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
+		if(!checkSpecifySensorStatus(p->id, "dlarg")){
+			if(isAll)continue;
+			else break;
+		}
+		data = g_malloc0(9);
+		memcpy(data, &p->id, 2);
+		{
+			guint len2 = g_slist_length(p->argument_list);
+			for(int j=0; j<len2; j++) {
+				struct _argument_st *p2 = g_slist_nth_data (p->argument_list, j);
+				g_log (TAG, G_LOG_LEVEL_DEBUG, 
+					   "  channel = %d freq = %d, nums = %d",
+					   p2->channel, p2->freq, p2->nums);
+				data[2] |= p2->channel; // 1, 2, 4
+				if(p2->channel & 0x01){
+					data[3] = p2->freq;
+					data[4] = p2->nums;
+				}else if(p2->channel & 0x02){
+					data[5] = p2->freq;
+					data[6] = p2->nums;
+				}else if(p2->channel & 0x04){
+					data[7] = p2->freq;
+					data[8] = p2->nums;
+				}
+				// where group??
+				data[9] = p->group;
+			}
+		}
+		struct _cmd_list *pcmd = (struct _cmd_list *)
+								g_malloc0(sizeof(struct _cmd_list));
+		g_async_queue_lock(s_asyncQueue);
+		pcmd->id = p->id;
+		pcmd->cmd = 0x13; // config arg
+		pcmd->data = data;
+		g_async_queue_push_unlocked(s_asyncQueue, pcmd);
+		g_async_queue_unlock(s_asyncQueue);
+		
+		ret = TRUE;
+		if(!isAll)break;
+	}  
+	return ret;
 }
 
 //
 // create sensor sample argument
 int createArgumentCommand()
 {
-    guchar *data = NULL;
-    guint len = g_slist_length(s_sensor_list);
-    for(int i=0; i<len; i++) {
-        struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
-        g_log (TAG, G_LOG_LEVEL_DEBUG, "id = %d",p->id);
+	guchar *data = NULL;
+	guint len = g_slist_length(s_sensor_list);
+	for(int i=0; i<len; i++) {
+		struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
+		g_log (TAG, G_LOG_LEVEL_DEBUG, "id = %d",p->id);
 
-        data = g_malloc0(9);
-        memcpy(data, &p->id, 2);
-        {
-            guint len2 = g_slist_length(p->argument_list);
-            for(int j=0; j<len2; j++) {
-                struct _argument_st *p2 = g_slist_nth_data (p->argument_list, j);
-                g_log (TAG, G_LOG_LEVEL_DEBUG, 
-                       "  channel = %d freq = %d, nums = %d",p2->channel, p2->freq, p2->nums);
-                data[2] |= p2->channel; // 1, 2, 4
-                if(p2->channel & 0x01){
-                    data[3] = p2->freq;
-                    data[4] = p2->nums;
-                }else if(p2->channel & 0x02){
-                    data[5] = p2->freq;
-                    data[6] = p2->nums;
-                }else if(p2->channel & 0x04){
-                    data[7] = p2->freq;
-                    data[8] = p2->nums;
-                }
-                // where group??
-            }
-        }
-        struct _cmd_list *pcmd = (struct _cmd_list *)
-                                g_malloc0(sizeof(struct _cmd_list));
-        g_async_queue_lock(s_asyncQueue);
-        pcmd->id = p->id;
-        pcmd->cmd = 0x13; // config arg
-        pcmd->data = data;
-        g_async_queue_push_unlocked(s_asyncQueue, pcmd);
-        g_async_queue_unlock(s_asyncQueue);
-    }  
-    return 1;
+		data = g_malloc0(9);
+		memcpy(data, &p->id, 2);
+		{
+			guint len2 = g_slist_length(p->argument_list);
+			for(int j=0; j<len2; j++) {
+				struct _argument_st *p2 = g_slist_nth_data (p->argument_list, j);
+				g_log (TAG, G_LOG_LEVEL_DEBUG, 
+					   "  channel = %d freq = %d, nums = %d",p2->channel, p2->freq, p2->nums);
+				data[2] |= p2->channel; // 1, 2, 4
+				if(p2->channel & 0x01){
+					data[3] = p2->freq;
+					data[4] = p2->nums;
+				}else if(p2->channel & 0x02){
+					data[5] = p2->freq;
+					data[6] = p2->nums;
+				}else if(p2->channel & 0x04){
+					data[7] = p2->freq;
+					data[8] = p2->nums;
+				}
+				// where group??
+			}
+		}
+		struct _cmd_list *pcmd = (struct _cmd_list *)
+								g_malloc0(sizeof(struct _cmd_list));
+		g_async_queue_lock(s_asyncQueue);
+		pcmd->id = p->id;
+		pcmd->cmd = 0x13; // config arg
+		pcmd->data = data;
+		g_async_queue_push_unlocked(s_asyncQueue, pcmd);
+		g_async_queue_unlock(s_asyncQueue);
+	}  
+	return 1;
 }
 
 //
 // create aquire command according to cycle
 int createAquireCommand(int minOfDay)
 {
-    struct _sensor_st *p;
-    guchar *group = NULL;
-    gboolean doAquire = FALSE;
-    guchar cmd = 0x12;
-    
-    g_async_queue_lock(s_asyncQueue);
-        
-    guint len = g_slist_length(s_sensor_list);
-    for(int i=0; i<len; i++) {
-        struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
-        //g_log (TAG, G_LOG_LEVEL_DEBUG, "id = %d %d %d",p->id, minOfDay, p->aquire_cycle);
-        if((minOfDay % p->aquire_cycle) != 0) {
-            g_log (TAG, G_LOG_LEVEL_DEBUG, "id(%d) not at cycle", p->id);
-            continue;
-        }
-        if(recreateArgumentCommand(FALSE)) {
-            // update the sensor argument first
-            continue;
-        }
-        cmd = p->raw == 1?0x1F:0x12; //0x12 value, 0x1F wave
-        {
-            guint len1 = g_slist_length(p->active_list);
-            for(int j=0; j<len1; j++) {
-                struct _active_slot_st *p1 = g_slist_nth_data (p->active_list, j);
-                if((minOfDay >= p1->start) && (minOfDay <= p1->end)){
-                    struct _cmd_list *pcmd = (struct _cmd_list *)
-                                g_malloc0(sizeof(struct _cmd_list));
-                    
-                    recovery_alarm_confirm_shadow(p->argument_list);
-                    
-                    if(group == NULL) {
-                        group = g_malloc0(16);
-                    }
-                    if(p->group > 16)p->group = 16;
-                    group[p->group-1] = 1;
-                    pcmd->id = p->id;
-                    pcmd->cmd = HOST_INQUIRE_SENSOR_DATA;
-                    pcmd->data = NULL;
-                    pcmd->delay = 3*4;
-                    pcmd->resend = 2; // TODO: find a batter way
-                    g_log (TAG, G_LOG_LEVEL_DEBUG, "aquire id = %d cmd=%x", p->id, cmd);
-                    g_async_queue_push_unlocked(s_asyncQueue, pcmd);
-                    //doAquire = TRUE;
-                }
-            }
-        }
-    }
-    if(doAquire) {
+	struct _sensor_st *p;
+	guchar *group = NULL;
+	gboolean doAquire = FALSE;
+	guchar cmd = 0x12;
+	
+	g_async_queue_lock(s_asyncQueue);
+		
+	guint len = g_slist_length(s_sensor_list);
+	for(int i=0; i<len; i++) {
+		struct _sensor_st *p = g_slist_nth_data (s_sensor_list, i);
+		//g_log (TAG, G_LOG_LEVEL_DEBUG, "id = %d %d %d",p->id, minOfDay, p->aquire_cycle);
+		if((minOfDay % p->aquire_cycle) != 0) {
+			g_log (TAG, G_LOG_LEVEL_DEBUG, "id(%d) not at cycle", p->id);
+			continue;
+		}
+		if(recreateArgumentCommand(FALSE)) {
+			// update the sensor argument first
+			continue;
+		}
+		cmd = p->raw == 1?0x1F:0x12; //0x12 value, 0x1F wave
+		{
+			guint len1 = g_slist_length(p->active_list);
+			for(int j=0; j<len1; j++) {
+				struct _active_slot_st *p1 = g_slist_nth_data (p->active_list, j);
+				if((minOfDay >= p1->start) && (minOfDay <= p1->end)){
+					struct _cmd_list *pcmd = (struct _cmd_list *)
+								g_malloc0(sizeof(struct _cmd_list));
+					
+					recovery_alarm_confirm_shadow(p->argument_list);
+					
+					if(group == NULL) {
+						group = g_malloc0(16);
+					}
+					if(p->group > 16)p->group = 16;
+					group[p->group-1] = 1;
+					pcmd->id = p->id;
+					pcmd->cmd = HOST_INQUIRE_SENSOR_DATA;
+					pcmd->data = NULL;
+					pcmd->delay = 3*4;
+					pcmd->resend = 2; // TODO: find a batter way
+					g_log (TAG, G_LOG_LEVEL_DEBUG, "aquire id = %d cmd=%x", p->id, cmd);
+					g_async_queue_push_unlocked(s_asyncQueue, pcmd);
+					//doAquire = TRUE;
+				}
+			}
+		}
+	}
+	if(doAquire) {
 #ifdef __ARM__
 // x86 glib don't support 'g_async_queue_push_front_unlocked'
-        struct _cmd_list *pcmd = g_malloc0(sizeof(struct _cmd_list));
-        pcmd->id = 0;
-        pcmd->cmd = 0x10; //group
-        pcmd->data = group;
-        g_log (TAG, G_LOG_LEVEL_DEBUG, "aquire id = %d cmd=%x", p->id, pcmd->cmd);
-        // start sample command go first
-        g_async_queue_push_front_unlocked(s_asyncQueue, pcmd);
+		struct _cmd_list *pcmd = g_malloc0(sizeof(struct _cmd_list));
+		pcmd->id = 0;
+		pcmd->cmd = 0x10; //group
+		pcmd->data = group;
+		g_log (TAG, G_LOG_LEVEL_DEBUG, "aquire id = %d cmd=%x", p->id, pcmd->cmd);
+		// start sample command go first
+		g_async_queue_push_front_unlocked(s_asyncQueue, pcmd);
 #endif
-    }
-    g_async_queue_unlock(s_asyncQueue);
-    return 0;
+	}
+	g_async_queue_unlock(s_asyncQueue);
+	return 0;
 }
 
 void request_gid_JsonInfo() {
@@ -1693,21 +1693,21 @@ void request_gid_JsonInfo() {
 	char *pjson = NULL;
 	
 	pJsonRoot = cJSON_CreateObject();
-    if(NULL == pJsonRoot){
-        goto json_err;
-    }
-    cJSON_AddStringToObject(pJsonRoot, "message", "req-gid");
-    cJSON_AddStringToObject(pJsonRoot, "ip", s_localip);
-    cJSON_AddStringToObject(pJsonRoot, "mac", s_locamac);
-    
+	if(NULL == pJsonRoot){
+		goto json_err;
+	}
+	cJSON_AddStringToObject(pJsonRoot, "message", "req-gid");
+	cJSON_AddStringToObject(pJsonRoot, "ip", s_localip);
+	cJSON_AddStringToObject(pJsonRoot, "mac", s_locamac);
+	
 	pjson = cJSON_Print(pJsonRoot);
-    if(pjson == NULL){
-        goto json_err;
-    }
-    printf("%s\n", pjson);
-    
+	if(pjson == NULL){
+		goto json_err;
+	}
+	printf("%s\n", pjson);
+	
 	int ret = mosquitto_publish(s_mosq, &s_mid, "/gpub", strlen(pjson), pjson, 2, false);
-    if(ret == MOSQ_ERR_SUCCESS) {
+	if(ret == MOSQ_ERR_SUCCESS) {
 		
 	}
 	cJSON_free(pjson);
@@ -1716,14 +1716,14 @@ json_err:
 	return;
 }
 gboolean seconds_timeout(gpointer user_data) {
-    if(g_date_time_get_second(g_date_time_new_now_local()) == 0) {
+	if(g_date_time_get_second(g_date_time_new_now_local()) == 0) {
 		if(s_gid == NULL || strlen(s_gid) == 0 ||
 			strcmp(s_gid, "G00@default") == 0) {
 			request_gid_JsonInfo();
 		}
 	}
 	
-    if(g_date_time_get_second(g_date_time_new_now_local()) == 30) {
+	if(g_date_time_get_second(g_date_time_new_now_local()) == 30) {
 		if(! s_net_para._ntp.isUpdate) {
 			if(s_net_para._ntp.check && ! require_internet_datetime(s_net_para._ntp.host)) {
 				g_log (TAG, G_LOG_LEVEL_DEBUG, "request internet datetime failure");
@@ -1733,195 +1733,195 @@ gboolean seconds_timeout(gpointer user_data) {
 	}
 	
 	// sensor will sample at 0s, so we should wait 10s for sensor finish job
-    if(g_date_time_get_second(g_date_time_new_now_local()) == 10) {
-        g_log (TAG, G_LOG_LEVEL_DEBUG, "one min timeout arrive");
-        gint h = g_date_time_get_hour(g_date_time_new_now_local());
-        gint m = g_date_time_get_minute(g_date_time_new_now_local());
-        gint minOfDay = 60*h + m;
-        //if(s_status & 1) 
-        {
-            printf("check to resync timebase %u\n", (int)(g_get_real_time() / 1000000) - s_net_para._ntp.updateTime);
-            if(!s_net_para._ntp.isUpdate || (((g_get_real_time() / 1000000) - s_net_para._ntp.updateTime) > (720*60))) {
-                s_net_para._ntp.isUpdate = FALSE;
-                // a fake time correction require
-                guchar req[] = {0x55, 0xAA, 0x99, 0x66, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x2F, 0x00, 0x00, 0x00};
-                pipe_push(s_p, req, sizeof(req));
-            }
-            // test command
-            if(0){
-                GCond _cond;
-                GMutex _mutex;
-                g_cond_init(&_cond);
-                g_mutex_init (&_mutex);
-                //build_sensor_command(10033, SUBG_REPORT_SENSOR_INFO, NULL, 0, 9, TRUE, &_cond, &_mutex);
-                //guchar info[4]={116,0,0,0};
-                //build_sensor_command(10033, HOST_INQUIRE_SENSOR_TDATA, info, sizeof(info), 6, TRUE, &_cond, &_mutex);
-                guchar info[]={0x00, 0x00, 
-                    0xA0, 0x05, 
-                    0x02, 0x00, 
-                    0x01, 0x00, 
-                    0x66, 0x01, 0x0A, 0x0C, 
-                    0x00, 0x00, 0x00, 0x00, 
-                    0x00, 0x00, 0x00, 0x00, 
-                    0x00, 0x00, 0x00, 0x00 };
-                build_sensor_command(10033, HOST_SET_SENSOR_SAMPLE_ARGS, info, sizeof(info), 6, TRUE, &_cond, &_mutex);
-                g_mutex_lock (&_mutex);
-                if(!g_cond_wait_until(&_cond, &_mutex, g_get_monotonic_time () + 9 * G_TIME_SPAN_SECOND)) {
-                    g_log (TAG, G_LOG_LEVEL_DEBUG, "-----wait timeout-----");
-                }
-                g_mutex_unlock (&_mutex);
-                g_log (TAG, G_LOG_LEVEL_DEBUG, "-----command ok-----");
-                g_usleep(6000000);
-                build_sensor_command(10033, HOST_INQUIRE_SENSOR_DATA, NULL, 0, 6, FALSE, NULL, NULL);
-            }
+	if(g_date_time_get_second(g_date_time_new_now_local()) == 10) {
+		g_log (TAG, G_LOG_LEVEL_DEBUG, "one min timeout arrive");
+		gint h = g_date_time_get_hour(g_date_time_new_now_local());
+		gint m = g_date_time_get_minute(g_date_time_new_now_local());
+		gint minOfDay = 60*h + m;
+		//if(s_status & 1) 
+		{
+			printf("check to resync timebase %u\n", (int)(g_get_real_time() / 1000000) - s_net_para._ntp.updateTime);
+			if(!s_net_para._ntp.isUpdate || (((g_get_real_time() / 1000000) - s_net_para._ntp.updateTime) > (720*60))) {
+				s_net_para._ntp.isUpdate = FALSE;
+				// a fake time correction require
+				guchar req[] = {0x55, 0xAA, 0x99, 0x66, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x2F, 0x00, 0x00, 0x00};
+				pipe_push(s_p, req, sizeof(req));
+			}
+			// test command
+			if(0){
+				GCond _cond;
+				GMutex _mutex;
+				g_cond_init(&_cond);
+				g_mutex_init (&_mutex);
+				//build_sensor_command(10033, SUBG_REPORT_SENSOR_INFO, NULL, 0, 9, TRUE, &_cond, &_mutex);
+				//guchar info[4]={116,0,0,0};
+				//build_sensor_command(10033, HOST_INQUIRE_SENSOR_TDATA, info, sizeof(info), 6, TRUE, &_cond, &_mutex);
+				guchar info[]={0x00, 0x00, 
+					0xA0, 0x05, 
+					0x02, 0x00, 
+					0x01, 0x00, 
+					0x66, 0x01, 0x0A, 0x0C, 
+					0x00, 0x00, 0x00, 0x00, 
+					0x00, 0x00, 0x00, 0x00, 
+					0x00, 0x00, 0x00, 0x00 };
+				build_sensor_command(10033, HOST_SET_SENSOR_SAMPLE_ARGS, info, sizeof(info), 6, TRUE, &_cond, &_mutex);
+				g_mutex_lock (&_mutex);
+				if(!g_cond_wait_until(&_cond, &_mutex, g_get_monotonic_time () + 9 * G_TIME_SPAN_SECOND)) {
+					g_log (TAG, G_LOG_LEVEL_DEBUG, "-----wait timeout-----");
+				}
+				g_mutex_unlock (&_mutex);
+				g_log (TAG, G_LOG_LEVEL_DEBUG, "-----command ok-----");
+				g_usleep(6000000);
+				build_sensor_command(10033, HOST_INQUIRE_SENSOR_DATA, NULL, 0, 6, FALSE, NULL, NULL);
+			}
 			
-            createAquireCommand(minOfDay);
-        }
-    }
-    
-    return TRUE;
+			createAquireCommand(minOfDay);
+		}
+	}
+	
+	return TRUE;
 }
 
 gboolean wakeup_timeout(gpointer user_data) {
-    g_log (TAG, G_LOG_LEVEL_DEBUG, "time left:%d", s_wakeup_timeout);
-    if(s_wakeup_timeout > 0) {
-        s_wakeup_timeout--;
-        return TRUE;
-    }
-    
-    s_to_res = 0;
-    return FALSE;
+	g_log (TAG, G_LOG_LEVEL_DEBUG, "time left:%d", s_wakeup_timeout);
+	if(s_wakeup_timeout > 0) {
+		s_wakeup_timeout--;
+		return TRUE;
+	}
+	
+	s_to_res = 0;
+	return FALSE;
 }
 
 //
 // build a packet whitch send to end.
 guint build_serial_packet(struct _cmd_list *pcmd, guchar **puser) {
 #define ID_LEN 2
-    guint len = sizeof(struct _end_packet)+ ID_LEN + pcmd->len ;
-    guchar *user = g_malloc0(len);
-    ((struct _end_packet *)user)->hed[0] = 0x55;
-    ((struct _end_packet *)user)->hed[1] = 0xAA;
-    ((struct _end_packet *)user)->hed[2] = 0x99;
-    ((struct _end_packet *)user)->hed[3] = 0x66;
-    ((struct _end_packet *)user)->sn = 1;
-    ((struct _end_packet *)user)->len = pcmd->len + (pcmd->id==0?0:2);
-    ((struct _end_packet *)user)->cmd = pcmd->cmd;
-    if(pcmd->id > 0) {
-        memcpy(user + sizeof(struct _end_packet), &pcmd->id, ID_LEN);
-    }
-    if(pcmd->len > 0) {
-        memcpy(user + sizeof(struct _end_packet) + (pcmd->id==0?0:ID_LEN), pcmd->data, pcmd->len);
-    }
-    //for(int i=0; i<len-1; i++) {
-        //user[len-1] ^= user[i];
-    //}
-    //dumpmem(user, len);
-    *puser = user;
-    return len;
+	guint len = sizeof(struct _end_packet)+ ID_LEN + pcmd->len ;
+	guchar *user = g_malloc0(len);
+	((struct _end_packet *)user)->hed[0] = 0x55;
+	((struct _end_packet *)user)->hed[1] = 0xAA;
+	((struct _end_packet *)user)->hed[2] = 0x99;
+	((struct _end_packet *)user)->hed[3] = 0x66;
+	((struct _end_packet *)user)->sn = 1;
+	((struct _end_packet *)user)->len = pcmd->len + (pcmd->id==0?0:2);
+	((struct _end_packet *)user)->cmd = pcmd->cmd;
+	if(pcmd->id > 0) {
+		memcpy(user + sizeof(struct _end_packet), &pcmd->id, ID_LEN);
+	}
+	if(pcmd->len > 0) {
+		memcpy(user + sizeof(struct _end_packet) + (pcmd->id==0?0:ID_LEN), pcmd->data, pcmd->len);
+	}
+	//for(int i=0; i<len-1; i++) {
+		//user[len-1] ^= user[i];
+	//}
+	//dumpmem(user, len);
+	*puser = user;
+	return len;
 }
 
 //
 static gpointer send_command_thread(gpointer user_data) {
-    struct _cmd_list *pcmd;
-    gint64 end_time = 0;
-    guint fail_count = 0;
-    g_mutex_init (&s_lock);
-    g_cond_init (&s_cond);
-    int i = 0;
-    guint len = 0;
-    guchar *puser = NULL;
-    
-    while(1){
-        g_async_queue_lock(s_asyncQueue);
-        pcmd = (struct _cmd_list *)g_async_queue_pop_unlocked(s_asyncQueue);
-        g_async_queue_unlock(s_asyncQueue);
-        if(pcmd != NULL) {
-            printf("\r\n\r\n");
-            g_log (TAG, G_LOG_LEVEL_DEBUG, 
-                "%d got(%p) %d cmd %x data %p", i++, pcmd, pcmd->id, pcmd->cmd, pcmd->data);
-            // check if we need wake up sensor
+	struct _cmd_list *pcmd;
+	gint64 end_time = 0;
+	guint fail_count = 0;
+	g_mutex_init (&s_lock);
+	g_cond_init (&s_cond);
+	int i = 0;
+	guint len = 0;
+	guchar *puser = NULL;
+	
+	while(1){
+		g_async_queue_lock(s_asyncQueue);
+		pcmd = (struct _cmd_list *)g_async_queue_pop_unlocked(s_asyncQueue);
+		g_async_queue_unlock(s_asyncQueue);
+		if(pcmd != NULL) {
+			printf("\r\n\r\n");
+			g_log (TAG, G_LOG_LEVEL_DEBUG, 
+				"%d got(%p) %d cmd %x data %p", i++, pcmd, pcmd->id, pcmd->cmd, pcmd->data);
+			// check if we need wake up sensor
 #if 0
-            if(s_wakeup_timeout <= 10 && 
-                        pcmd->cmd != HOST_SET_SUBG_TIMESTAMP && // set subG's time
-                        pcmd->cmd != HOST_SET_SUBG_RFINFO &&        // set subG's RF info 
-                        pcmd->cmd != HOST_INQUIRE_SUBG_INFO)
-                // remove current timeout COUNTER
-                if(s_to_rc > 0)g_source_remove(s_to_rc);
-                
-                // TODO: send out wakeup command
-                g_log (TAG, G_LOG_LEVEL_DEBUG, "send wakeup command");
-                
-                s_wakeup_timeout = WAKEUP_TIMEOUT;
-                s_to_rc = g_timeout_add_seconds(1, wakeup_timeout, NULL);
-                g_log (TAG, G_LOG_LEVEL_DEBUG, "timeout add seconds rc=%d", s_to_rc);
-            }
+			if(s_wakeup_timeout <= 10 && 
+						pcmd->cmd != HOST_SET_SUBG_TIMESTAMP && // set subG's time
+						pcmd->cmd != HOST_SET_SUBG_RFINFO &&        // set subG's RF info 
+						pcmd->cmd != HOST_INQUIRE_SUBG_INFO)
+				// remove current timeout COUNTER
+				if(s_to_rc > 0)g_source_remove(s_to_rc);
+				
+				// TODO: send out wakeup command
+				g_log (TAG, G_LOG_LEVEL_DEBUG, "send wakeup command");
+				
+				s_wakeup_timeout = WAKEUP_TIMEOUT;
+				s_to_rc = g_timeout_add_seconds(1, wakeup_timeout, NULL);
+				g_log (TAG, G_LOG_LEVEL_DEBUG, "timeout add seconds rc=%d", s_to_rc);
+			}
 #endif
-            // start a timeout watch dog, maybe subG is dead 
-            g_log (TAG, G_LOG_LEVEL_DEBUG, "start timeout watch dog");
-            if(s_to_rec_res > 0) {
+			// start a timeout watch dog, maybe subG is dead 
+			g_log (TAG, G_LOG_LEVEL_DEBUG, "start timeout watch dog");
+			if(s_to_rec_res > 0) {
 				g_source_remove(s_to_rec_res);
 				s_to_rec_res = 0;
 			}
-            s_to_rec_res = g_timeout_add_seconds(4, seconds_rec_timeout, pcmd);
+			s_to_rec_res = g_timeout_add_seconds(4, seconds_rec_timeout, pcmd);
 
-            len = build_serial_packet(pcmd, &puser);
-            if(!serial_write_data(puser, len)) {
+			len = build_serial_packet(pcmd, &puser);
+			if(!serial_write_data(puser, len)) {
 				if(s_to_rec_res > 0) {
 					g_source_remove(s_to_rec_res);
 					s_to_rec_res = 0;
 				}
-                g_log(TAG, G_LOG_LEVEL_DEBUG, "serial write fail, errno=%d", errno);
-                continue;
-            }
+				g_log(TAG, G_LOG_LEVEL_DEBUG, "serial write fail, errno=%d", errno);
+				continue;
+			}
 #if 1
-            // wait for command respond
-            {
-                g_mutex_lock (&s_lock);
-                g_cond_wait(&s_cond, &s_lock); // wait forever
-                g_mutex_unlock (&s_lock);
-            }
+			// wait for command respond
+			{
+				g_mutex_lock (&s_lock);
+				g_cond_wait(&s_cond, &s_lock); // wait forever
+				g_mutex_unlock (&s_lock);
+			}
 #endif 
-            g_log(TAG, G_LOG_LEVEL_DEBUG, "s_cond has signaled");
-            // TODO: tell user command finish who would expect.
-            // signal user, tell user we finish the job
-            if(pcmd->notify) {
-                //printf("pcmd->cond=%p,  pcmd->mutex=%p\n", pcmd->cond, pcmd->mutex);
-                g_mutex_lock (pcmd->mutex);
-                g_cond_signal (pcmd->cond);
-                g_mutex_unlock (pcmd->mutex);
-            }
-            
-            g_free(pcmd->data);
-            g_free(pcmd);
-        }
-    }
-    return GINT_TO_POINTER(-1);
+			g_log(TAG, G_LOG_LEVEL_DEBUG, "s_cond has signaled");
+			// TODO: tell user command finish who would expect.
+			// signal user, tell user we finish the job
+			if(pcmd->notify) {
+				//printf("pcmd->cond=%p,  pcmd->mutex=%p\n", pcmd->cond, pcmd->mutex);
+				g_mutex_lock (pcmd->mutex);
+				g_cond_signal (pcmd->cond);
+				g_mutex_unlock (pcmd->mutex);
+			}
+			
+			g_free(pcmd->data);
+			g_free(pcmd);
+		}
+	}
+	return GINT_TO_POINTER(-1);
 }
 /*
 struct _cmd_list *pcmd = (struct _cmd_list *)
-                                g_malloc0(sizeof(struct _cmd_list));
-        g_async_queue_lock(s_asyncQueue);
-        pcmd->id = 121;
-        pcmd->cmd = 0x15; // config arg
-        pcmd->data = NULL;
-        pcmd->notify = TRUE;
-        pcmd->cond = _cond;
-        pcmd->mutex = _mutex;
-        pcmd->delay = 10;
-        g_async_queue_push_unlocked(s_asyncQueue, pcmd);
-        g_async_queue_unlock(s_asyncQueue);
-        g_log(TAG, G_LOG_LEVEL_DEBUG, "mqtt send a command");
-        g_mutex_lock (&_mutex);
-        end_time = g_get_monotonic_time () + pcmd->delay * G_TIME_SPAN_SECOND + 500000;
-        if(!g_cond_wait_until (&_cond, &_mutex, end_time)) {
-            g_log(TAG, G_LOG_LEVEL_DEBUG, "mqtt wait _cond signal timeout");
-        }
-        g_mutex_unlock (&_mutex);
+								g_malloc0(sizeof(struct _cmd_list));
+		g_async_queue_lock(s_asyncQueue);
+		pcmd->id = 121;
+		pcmd->cmd = 0x15; // config arg
+		pcmd->data = NULL;
+		pcmd->notify = TRUE;
+		pcmd->cond = _cond;
+		pcmd->mutex = _mutex;
+		pcmd->delay = 10;
+		g_async_queue_push_unlocked(s_asyncQueue, pcmd);
+		g_async_queue_unlock(s_asyncQueue);
+		g_log(TAG, G_LOG_LEVEL_DEBUG, "mqtt send a command");
+		g_mutex_lock (&_mutex);
+		end_time = g_get_monotonic_time () + pcmd->delay * G_TIME_SPAN_SECOND + 500000;
+		if(!g_cond_wait_until (&_cond, &_mutex, end_time)) {
+			g_log(TAG, G_LOG_LEVEL_DEBUG, "mqtt wait _cond signal timeout");
+		}
+		g_mutex_unlock (&_mutex);
  */
 void on_connect(struct mosquitto *mosq, void *obj, int rc)
 {
-    g_log(TAG, G_LOG_LEVEL_DEBUG, "on_connect rc=%d", rc);
-    if(rc == 0) {
+	g_log(TAG, G_LOG_LEVEL_DEBUG, "on_connect rc=%d", rc);
+	if(rc == 0) {
 		char *topic = NULL;
 		asprintf(&topic, "/%s", s_gid);
 		mosquitto_subscribe(mosq, NULL, topic, 2);
@@ -1940,15 +1940,15 @@ void on_connect(struct mosquitto *mosq, void *obj, int rc)
 }
 void on_disconnect(struct mosquitto *mosq, void *obj, int rc)
 {
-    g_log(TAG, G_LOG_LEVEL_DEBUG, "on_disconnect");
+	g_log(TAG, G_LOG_LEVEL_DEBUG, "on_disconnect");
 }
 void on_subscribe(struct mosquitto *mosq, void *obj, int mid, int qos_count, const int *granted_qos)
 {
-    g_log(TAG, G_LOG_LEVEL_DEBUG, "on_subscribe");
+	g_log(TAG, G_LOG_LEVEL_DEBUG, "on_subscribe");
 }
 void on_publish(struct mosquitto *mosq, void *obj, int mid)
 {
-    //g_log(TAG, G_LOG_LEVEL_DEBUG, "on_publish, mid=%d", mid);
+	//g_log(TAG, G_LOG_LEVEL_DEBUG, "on_publish, mid=%d", mid);
 }
 
 struct _ti_to {
@@ -2037,9 +2037,9 @@ void ParseSearchFromJson(gchar *json) {
 	int iSize = cJSON_GetArraySize(pJSensor);
 	guint *id = (guint *)g_malloc0(iSize * sizeof(guint));
 	for(i = 0; i < iSize; i++){
-        id[i] = cJSON_GetArrayItem(pJSensor, i)->valueint;
-        printf("---- %d\n", id[i]);
-    }
+		id[i] = cJSON_GetArrayItem(pJSensor, i)->valueint;
+		printf("---- %d\n", id[i]);
+	}
 	cJSON_Delete(pjsonRoot);
 	
 	if(i==1 && id[0] == 0) {		// all sensors
@@ -2110,7 +2110,7 @@ void parse_gid_jsonInfo(gchar *json) {
 void on_message(struct mosquitto *mosq, void *obj, const struct mosquitto_message *msg)
 {
 	// TODO: lock
-    g_log(TAG, G_LOG_LEVEL_DEBUG, "on_message: %s", msg->topic);
+	g_log(TAG, G_LOG_LEVEL_DEBUG, "on_message: %s", msg->topic);
 	cJSON *pjsonRoot = cJSON_Parse((char *)msg->payload);
 	if(pjsonRoot == NULL) {
 		g_log(TAG, G_LOG_LEVEL_DEBUG, "is not a json file");
@@ -2125,14 +2125,14 @@ void on_message(struct mosquitto *mosq, void *obj, const struct mosquitto_messag
 		g_log(TAG, G_LOG_LEVEL_DEBUG, "got parameter message");
 		g_file_set_contents(SENSOR_JSON_FILE_PATH, msg->payload, msg->payloadlen, &error);
 		if(error != NULL){
-            g_log (TAG, G_LOG_LEVEL_DEBUG, "%s", error->message);
-            g_error_free(error);
-        }
-        // TODO: send respond
-        // restart app
-        //ParseSensorInfoFromJson(msg->payload, msg->payloadlen);
-        // TODO：check if we are sampling data，and wait finish
-        exit(0);
+			g_log (TAG, G_LOG_LEVEL_DEBUG, "%s", error->message);
+			g_error_free(error);
+		}
+		// TODO: send respond
+		// restart app
+		//ParseSensorInfoFromJson(msg->payload, msg->payloadlen);
+		// TODO：check if we are sampling data，and wait finish
+		exit(0);
 	}
 	else if(strcmp(message, "temporary") == 0) {
 		g_log(TAG, G_LOG_LEVEL_DEBUG, "got temporary message");
@@ -2161,49 +2161,49 @@ void on_message(struct mosquitto *mosq, void *obj, const struct mosquitto_messag
 }
 
 static gpointer mqtt_thread(gpointer user_data) {
-    guint64 end_time;
-    GCond _cond;
-    GMutex _mutex;
-    g_cond_init(&_cond);
-    g_mutex_init (&_mutex);
-    g_log(TAG, G_LOG_LEVEL_DEBUG, "mqtt_thread running");
+	guint64 end_time;
+	GCond _cond;
+	GMutex _mutex;
+	g_cond_init(&_cond);
+	g_mutex_init (&_mutex);
+	g_log(TAG, G_LOG_LEVEL_DEBUG, "mqtt_thread running");
 
-    while(1)
-    {
-        int rc;
-        char id[128]={'\0'};
-        mosquitto_lib_init();
-        sprintf(id, "wls@%s", s_locamac);
-        s_mosq = mosquitto_new(id, false, NULL);
-        mosquitto_threaded_set(s_mosq, true);
-        mosquitto_connect_callback_set(s_mosq, on_connect);
-        mosquitto_disconnect_callback_set(s_mosq, on_disconnect);
-        mosquitto_subscribe_callback_set(s_mosq, on_subscribe);
-        mosquitto_publish_callback_set(s_mosq, on_publish);
-        mosquitto_message_callback_set(s_mosq, on_message);
-        //mosquitto_username_pw_set(s_mosq, s_net_para._mqtt.user, s_net_para._mqtt.passw);
-        rc = mosquitto_connect(s_mosq, s_net_para._mqtt.ip, s_net_para._mqtt.port, s_net_para._mqtt.keepalive);
-        if(rc != MOSQ_ERR_SUCCESS){
-            g_log("mqtt", G_LOG_LEVEL_DEBUG, "mosquitto_connect fail, connect later");
-        }
-        
-        mosquitto_loop_forever(s_mosq, -1, 1);
-        // will never get here unless you call mosquitto_disconnect(s_mosq);
-        g_log("mqtt", G_LOG_LEVEL_DEBUG, "mosquitto bye bye");
-        mosquitto_lib_cleanup();
-    }
-    return GINT_TO_POINTER(-1);
+	while(1)
+	{
+		int rc;
+		char id[128]={'\0'};
+		mosquitto_lib_init();
+		sprintf(id, "wls@%s", s_locamac);
+		s_mosq = mosquitto_new(id, false, NULL);
+		mosquitto_threaded_set(s_mosq, true);
+		mosquitto_connect_callback_set(s_mosq, on_connect);
+		mosquitto_disconnect_callback_set(s_mosq, on_disconnect);
+		mosquitto_subscribe_callback_set(s_mosq, on_subscribe);
+		mosquitto_publish_callback_set(s_mosq, on_publish);
+		mosquitto_message_callback_set(s_mosq, on_message);
+		//mosquitto_username_pw_set(s_mosq, s_net_para._mqtt.user, s_net_para._mqtt.passw);
+		rc = mosquitto_connect(s_mosq, s_net_para._mqtt.ip, s_net_para._mqtt.port, s_net_para._mqtt.keepalive);
+		if(rc != MOSQ_ERR_SUCCESS){
+			g_log("mqtt", G_LOG_LEVEL_DEBUG, "mosquitto_connect fail, connect later");
+		}
+		
+		mosquitto_loop_forever(s_mosq, -1, 1);
+		// will never get here unless you call mosquitto_disconnect(s_mosq);
+		g_log("mqtt", G_LOG_LEVEL_DEBUG, "mosquitto bye bye");
+		mosquitto_lib_cleanup();
+	}
+	return GINT_TO_POINTER(-1);
 }
 
 void subG_reset()
 {
-    char cmd[256];
-    
-    sprintf(cmd, "echo 0 > /sys/class/g780/device/rst_state");
-    system(cmd);
-    g_usleep(100000);
-    sprintf(cmd, "echo 1 > /sys/class/g780/device/rst_state");
-    system(cmd);
+	char cmd[256];
+	
+	sprintf(cmd, "echo 0 > /sys/class/g780/device/rst_state");
+	system(cmd);
+	g_usleep(100000);
+	sprintf(cmd, "echo 1 > /sys/class/g780/device/rst_state");
+	system(cmd);
 }
 static gpointer info_request_thread(gpointer user_data) {
 	
@@ -2211,74 +2211,74 @@ static gpointer info_request_thread(gpointer user_data) {
 }
 char* GetLocalIp()
 {
-    int sock_get_ip;
-    char* ipaddr;
+	int sock_get_ip;
+	char* ipaddr;
   
-    struct   sockaddr_in *sin;
-    struct   ifreq ifr_ip;
+	struct   sockaddr_in *sin;
+	struct   ifreq ifr_ip;
   
-    if ((sock_get_ip=socket(AF_INET, SOCK_STREAM, 0)) == -1)
-    {
-         printf("socket create failse...GetLocalIp!\n");
-         return NULL;  
-    }
-    memset(&ifr_ip, 0, sizeof(ifr_ip));
+	if ((sock_get_ip=socket(AF_INET, SOCK_STREAM, 0)) == -1)
+	{
+		 printf("socket create failse...GetLocalIp!\n");
+		 return NULL;  
+	}
+	memset(&ifr_ip, 0, sizeof(ifr_ip));
 #ifdef __ARM__
 	strncpy(ifr_ip.ifr_name, "eth0", sizeof(ifr_ip.ifr_name) - 1);
 #else
-    strncpy(ifr_ip.ifr_name, "wlan0", sizeof(ifr_ip.ifr_name) - 1);
+	strncpy(ifr_ip.ifr_name, "wlan0", sizeof(ifr_ip.ifr_name) - 1);
 #endif
-    if( ioctl( sock_get_ip, SIOCGIFADDR, &ifr_ip) < 0 )
-    {
-        close( sock_get_ip );
-        return NULL;
-    }
-    ipaddr = (char *)malloc(32);
-    sin = (struct sockaddr_in *)&ifr_ip.ifr_addr;
-    strcpy(ipaddr,inet_ntoa(sin->sin_addr));
-    //printf("local ip:%x\n",sin->sin_addr);  
-    printf("local ip:%s \n",ipaddr);
-    close( sock_get_ip );
-      
-    return (char *)ipaddr;
+	if( ioctl( sock_get_ip, SIOCGIFADDR, &ifr_ip) < 0 )
+	{
+		close( sock_get_ip );
+		return NULL;
+	}
+	ipaddr = (char *)malloc(32);
+	sin = (struct sockaddr_in *)&ifr_ip.ifr_addr;
+	strcpy(ipaddr,inet_ntoa(sin->sin_addr));
+	//printf("local ip:%x\n",sin->sin_addr);  
+	printf("local ip:%s \n",ipaddr);
+	close( sock_get_ip );
+	  
+	return (char *)ipaddr;
 }
 char* GetLocalMac()
 {
-    int sock_mac;
-      
-    struct ifreq ifr_mac;
-    char* macaddr = NULL;
-      
-    sock_mac = socket( AF_INET, SOCK_STREAM, 0 ); 
-    if( sock_mac == -1)
-    {
-        perror("create socket falise...mac\n");
-        return "";
-    }
-      
-    memset(&ifr_mac,0,sizeof(ifr_mac));
-    strncpy(ifr_mac.ifr_name, "eth0", sizeof(ifr_mac.ifr_name)-1);
+	int sock_mac;
+	  
+	struct ifreq ifr_mac;
+	char* macaddr = NULL;
+	  
+	sock_mac = socket( AF_INET, SOCK_STREAM, 0 ); 
+	if( sock_mac == -1)
+	{
+		perror("create socket falise...mac\n");
+		return "";
+	}
+	  
+	memset(&ifr_mac,0,sizeof(ifr_mac));
+	strncpy(ifr_mac.ifr_name, "eth0", sizeof(ifr_mac.ifr_name)-1);
 
-    if( (ioctl( sock_mac, SIOCGIFHWADDR, &ifr_mac)) < 0)
-    {
-        perror("mac ioctl error\n");
-        return "";
-    }
-    
-    asprintf(&macaddr,"%02x:%02x:%02x:%02x:%02x:%02x",
-            (unsigned char)ifr_mac.ifr_hwaddr.sa_data[0],
-            (unsigned char)ifr_mac.ifr_hwaddr.sa_data[1],
-            (unsigned char)ifr_mac.ifr_hwaddr.sa_data[2],
-            (unsigned char)ifr_mac.ifr_hwaddr.sa_data[3],
-            (unsigned char)ifr_mac.ifr_hwaddr.sa_data[4],
-            (unsigned char)ifr_mac.ifr_hwaddr.sa_data[5]);
+	if( (ioctl( sock_mac, SIOCGIFHWADDR, &ifr_mac)) < 0)
+	{
+		perror("mac ioctl error\n");
+		return "";
+	}
+	
+	asprintf(&macaddr,"%02x:%02x:%02x:%02x:%02x:%02x",
+			(unsigned char)ifr_mac.ifr_hwaddr.sa_data[0],
+			(unsigned char)ifr_mac.ifr_hwaddr.sa_data[1],
+			(unsigned char)ifr_mac.ifr_hwaddr.sa_data[2],
+			(unsigned char)ifr_mac.ifr_hwaddr.sa_data[3],
+			(unsigned char)ifr_mac.ifr_hwaddr.sa_data[4],
+			(unsigned char)ifr_mac.ifr_hwaddr.sa_data[5]);
   
-    printf("local mac:%s \n",macaddr);
+	printf("local mac:%s \n",macaddr);
 
-    close( sock_mac );
-    return macaddr;
-    
-    return 0;
+	close( sock_mac );
+	return macaddr;
+	
+	return 0;
 }
 
 void create_default_net_parameter() {
@@ -2292,35 +2292,35 @@ void create_default_net_parameter() {
 	g_key_file_set_integer(keyfile, "LOCAL", "port", 40001);
 	//SERVER
 	g_key_file_set_string(keyfile, "SERVER", "ip", "192.168.1.6");
-    g_key_file_set_integer(keyfile, "SERVER", "port", 40002);
-    //MQTT
-    g_key_file_set_string(keyfile, "MQTT", "ip", "127.0.0.1");
-    g_key_file_set_integer(keyfile, "MQTT", "port", 1883);
-    g_key_file_set_string(keyfile, "MQTT", "user", "admin");
-    g_key_file_set_string(keyfile, "MQTT", "password", "password");
-    g_key_file_set_integer(keyfile, "MQTT", "keepalive", 10);
-    //NTP
-    g_key_file_set_string(keyfile, "NTP", "host", "ntp1.aliyun.com");
-    g_key_file_set_boolean(keyfile, "NTP", "check", FALSE);		// default we don't check ntp if is successful
-    // RF
-    g_key_file_set_integer(keyfile, "SUBG", "channel", 772);
-    g_key_file_set_integer(keyfile, "SUBG", "pan", 30);
-    g_key_file_set_integer(keyfile, "SUBG", "power", 0);
-    
+	g_key_file_set_integer(keyfile, "SERVER", "port", 40002);
+	//MQTT
+	g_key_file_set_string(keyfile, "MQTT", "ip", "127.0.0.1");
+	g_key_file_set_integer(keyfile, "MQTT", "port", 1883);
+	g_key_file_set_string(keyfile, "MQTT", "user", "admin");
+	g_key_file_set_string(keyfile, "MQTT", "password", "password");
+	g_key_file_set_integer(keyfile, "MQTT", "keepalive", 10);
+	//NTP
+	g_key_file_set_string(keyfile, "NTP", "host", "ntp1.aliyun.com");
+	g_key_file_set_boolean(keyfile, "NTP", "check", FALSE);		// default we don't check ntp if is successful
+	// RF
+	g_key_file_set_integer(keyfile, "SUBG", "channel", 772);
+	g_key_file_set_integer(keyfile, "SUBG", "pan", 30);
+	g_key_file_set_integer(keyfile, "SUBG", "power", 0);
+	
 	g_key_file_save_to_file(keyfile, LOCAL_NET_FILE_PATH, &error);
-    if(error != NULL) {
-        g_log (TAG, G_LOG_LEVEL_DEBUG, "save fail:%d %s", error->code, error->message);
-        g_free(error);
-    }
-    
-    g_key_file_free (keyfile);
+	if(error != NULL) {
+		g_log (TAG, G_LOG_LEVEL_DEBUG, "save fail:%d %s", error->code, error->message);
+		g_free(error);
+	}
+	
+	g_key_file_free (keyfile);
 }
 void load_net_parameter(struct _net_parameter_st *net) {
 	GKeyFile *keyfile;
 	GError *error = NULL;
 	
 	keyfile = g_key_file_new();
-    if(g_key_file_load_from_file(keyfile, LOCAL_NET_FILE_PATH, 0, &error)) {
+	if(g_key_file_load_from_file(keyfile, LOCAL_NET_FILE_PATH, 0, &error)) {
 		sprintf(net->_local.ip, "%s", g_key_file_get_string(keyfile, "LOCAL", "ip", NULL));
 		net->_local.port = g_key_file_get_integer(keyfile, "LOCAL", "port", NULL);
 		char *dhcp = g_key_file_get_string(keyfile, "LOCAL", "dhcp", NULL);
@@ -2347,7 +2347,7 @@ void load_net_parameter(struct _net_parameter_st *net) {
 			g_log (TAG, G_LOG_LEVEL_DEBUG, "save fail:%d %s", error->code, error->message);
 			g_free(error);
 		}
-    }
+	}
 	g_key_file_free (keyfile);
 }
 
@@ -2355,9 +2355,9 @@ void load_net_parameter(struct _net_parameter_st *net) {
 // 接受PHP传来的JSON格式信息，执行后，将JSON格式的响应回传给PHP
 //
 static gboolean client_handler (GThreadedSocketService *service,
-         GSocketConnection      *connection,
-         GSocketListener        *listener,
-         gpointer                user_data) {
+		 GSocketConnection      *connection,
+		 GSocketListener        *listener,
+		 gpointer                user_data) {
 #define MESSAGE "Welcome to the echo service!\n"
 	GOutputStream *out;
 	GInputStream *in;
@@ -2368,10 +2368,10 @@ static gboolean client_handler (GThreadedSocketService *service,
 	in = g_io_stream_get_input_stream (G_IO_STREAM (connection));
 
 	//g_output_stream_write_all (out, MESSAGE, strlen (MESSAGE),
-    //                         NULL, NULL, NULL);
+	//                         NULL, NULL, NULL);
 
 	while (0 < (size = g_input_stream_read (in, buffer,
-                                          sizeof buffer, NULL, NULL))) {
+										  sizeof buffer, NULL, NULL))) {
 		cJSON *pjsonRoot = NULL;
 		buffer[size]='\0';
 		printf("%s\n", buffer);	
@@ -2481,7 +2481,7 @@ static gboolean client_handler (GThreadedSocketService *service,
 		}
 		//g_output_stream_write (out, buffer, size, NULL, NULL);
 	}
-    printf("connect byb byb\n");		 
+	printf("connect byb byb\n");		 
 	return TRUE;
 }
 gpointer local_server_thread(gpointer user_data) {
@@ -2505,53 +2505,53 @@ gpointer local_server_thread(gpointer user_data) {
 }
 void show_system_memery()
 {
-    FILE *fd;  
-    char buff[1024];  
-    int total = 0;  
-    int free = 0;  
-    float use=0;  
+	FILE *fd;  
+	char buff[1024];  
+	int total = 0;  
+	int free = 0;  
+	float use=0;  
   
-    fd = fopen ("/proc/meminfo", "r");  
+	fd = fopen ("/proc/meminfo", "r");  
 
-    fgets (buff, sizeof(buff), fd);  
-    sscanf (buff, "%*s %d %*s", &total);  
+	fgets (buff, sizeof(buff), fd);  
+	sscanf (buff, "%*s %d %*s", &total);  
 
-    fgets (buff, sizeof(buff), fd);  
-    sscanf (buff, "%*s %d %*s", &free);  
-    use=(float)((total-free) /(total * 0.01));//百分比  
+	fgets (buff, sizeof(buff), fd);  
+	sscanf (buff, "%*s %d %*s", &free);  
+	use=(float)((total-free) /(total * 0.01));//百分比  
 
-    fclose(fd);      
-    printf("mem use: %f free: %d\n", use, free);
+	fclose(fd);      
+	printf("mem use: %f free: %d\n", use, free);
 }
 
 int main(void) {
-    GMainLoop *main_loop;
-    main_loop = g_main_loop_new (NULL, FALSE);
-    
-    g_log_set_default_handler (g_log_default_handler, NULL);
-    g_setenv ("G_MESSAGES_DEBUG", "all", TRUE);
-    g_log (TAG, G_LOG_LEVEL_DEBUG, "start wls app");
-    
-    cJSON_Hooks hooks = {
+	GMainLoop *main_loop;
+	main_loop = g_main_loop_new (NULL, FALSE);
+	
+	g_log_set_default_handler (g_log_default_handler, NULL);
+	g_setenv ("G_MESSAGES_DEBUG", "all", TRUE);
+	g_log (TAG, G_LOG_LEVEL_DEBUG, "start wls app");
+	
+	cJSON_Hooks hooks = {
 		.malloc_fn = g_malloc0,
 		.free_fn = g_free
 	};
-    cJSON_InitHooks( &hooks );
-    
+	cJSON_InitHooks( &hooks );
+	
 	if(!g_file_test(LOCAL_NET_FILE_PATH, G_FILE_TEST_EXISTS)) {
 		create_default_net_parameter();
 	}
 	memset(&s_net_para, 0, sizeof(s_net_para));
 
-    load_net_parameter(&s_net_para);
-    printf("mqtt net parameter:\n\tip:%s\n\tport:%d\n\tuser:%s\n\tpass:%s\n", 
+	load_net_parameter(&s_net_para);
+	printf("mqtt net parameter:\n\tip:%s\n\tport:%d\n\tuser:%s\n\tpass:%s\n", 
 			s_net_para._mqtt.ip, s_net_para._mqtt.port, s_net_para._mqtt.user, s_net_para._mqtt.passw);
 
-    if(!s_net_para._ntp.isUpdate) {
+	if(!s_net_para._ntp.isUpdate) {
 		//TODO:Check if host can't connect
-        require_internet_datetime(s_net_para._ntp.host);
-    }
-    
+		require_internet_datetime(s_net_para._ntp.host);
+	}
+	
 	s_localip = GetLocalIp();
 	s_locamac = GetLocalMac();
 	misc_info_from_db(SENSOR_DB_FILE_PATH, &s_gid);
@@ -2571,35 +2571,35 @@ int main(void) {
 	}
 #endif
 
-    if(!g_file_test(SENSOR_JSON_FILE_PATH, G_FILE_TEST_EXISTS)) {
-        gchar *base64;
-        GError *error = NULL;
-        char *sSensor = "{\"message\":\"parameter\",\"buildtime\":\"2018-08-01\",\"sensors\":[{\"id\":10033,\"group\":1,\"aquire_cycle\":2,\"active_slot\":[{\"start\":0,\"end\":540},{\"start\":540,\"end\":1440}],\"triger\":0,\"raw\":0,\"arguments\":[{\"channel\":1,\"freq\":2000,\"nums\":4096,\"alarm\":[{\"type\":1,\"source\":1,\"limit\":[{\"low\":0,\"high\":10},{\"low\":20,\"high\":50}]}],\"confirm\":{\"times\":1,\"raw\":1}}]},{\"id\":222,\"group\":2,\"aquire_cycle\":2,\"active_slot\":[{\"start\":0,\"end\":1440}],\"triger\":0,\"raw\":0,\"arguments\":[{\"channel\":2,\"freq\":2000,\"nums\":2048,\"alarm\":[{\"type\":1,\"source\":0,\"limit\":[{\"low\":-10,\"high\":10}]}],\"confirm\":{\"times\":1,\"raw\":1}}]}]}";
-        //base64 = g_base64_encode(sSensor, strlen(sSensor));
-        g_file_set_contents(SENSOR_JSON_FILE_PATH, sSensor, strlen(sSensor), &error);
-        if(error != NULL){
-            g_log (TAG, G_LOG_LEVEL_DEBUG, "%s", error->message);
-            g_error_free(error);
-        }
-        //g_free(base64);
-    }
-    //ParseSensorInfoFromJson("{\"message\":\"parameter\",\"buildtime\":\"2018-08-13\",\"sensors\":[{\"id\":10033,\"group\":0,\"aquire_cycle\":5,\"triger\":0,\"raw\":1,\"active_slot\":[{\"start\":0,\"end\":1440}],\"arguments\":[{\"channel\":1,\"freq\":2000,\"nums\":2018,\"alarm\":null,\"confirm\":null}]}]}", 0);
+	if(!g_file_test(SENSOR_JSON_FILE_PATH, G_FILE_TEST_EXISTS)) {
+		gchar *base64;
+		GError *error = NULL;
+		char *sSensor = "{\"message\":\"parameter\",\"buildtime\":\"2018-08-01\",\"sensors\":[{\"id\":10033,\"group\":1,\"aquire_cycle\":2,\"active_slot\":[{\"start\":0,\"end\":540},{\"start\":540,\"end\":1440}],\"triger\":0,\"raw\":0,\"arguments\":[{\"channel\":1,\"freq\":2000,\"nums\":4096,\"alarm\":[{\"type\":1,\"source\":1,\"limit\":[{\"low\":0,\"high\":10},{\"low\":20,\"high\":50}]}],\"confirm\":{\"times\":1,\"raw\":1}}]},{\"id\":222,\"group\":2,\"aquire_cycle\":2,\"active_slot\":[{\"start\":0,\"end\":1440}],\"triger\":0,\"raw\":0,\"arguments\":[{\"channel\":2,\"freq\":2000,\"nums\":2048,\"alarm\":[{\"type\":1,\"source\":0,\"limit\":[{\"low\":-10,\"high\":10}]}],\"confirm\":{\"times\":1,\"raw\":1}}]}]}";
+		//base64 = g_base64_encode(sSensor, strlen(sSensor));
+		g_file_set_contents(SENSOR_JSON_FILE_PATH, sSensor, strlen(sSensor), &error);
+		if(error != NULL){
+			g_log (TAG, G_LOG_LEVEL_DEBUG, "%s", error->message);
+			g_error_free(error);
+		}
+		//g_free(base64);
+	}
+	//ParseSensorInfoFromJson("{\"message\":\"parameter\",\"buildtime\":\"2018-08-13\",\"sensors\":[{\"id\":10033,\"group\":0,\"aquire_cycle\":5,\"triger\":0,\"raw\":1,\"active_slot\":[{\"start\":0,\"end\":1440}],\"arguments\":[{\"channel\":1,\"freq\":2000,\"nums\":2018,\"alarm\":null,\"confirm\":null}]}]}", 0);
 	//exit(0);
-    {
-        gchar *base64 = NULL;
-        gsize length = 0;
-        GError *error = NULL;
-        g_file_get_contents(SENSOR_JSON_FILE_PATH, &base64, &length, &error);
-        if(error != NULL) {
-            g_log (TAG, G_LOG_LEVEL_DEBUG, "%s", error->message);
-            g_error_free(error);
-        }
-        //base64 = g_base64_decode_inplace(base64, &length);
-        ParseSensorInfoFromJson(base64, length);
-    }
-    
-    initCache();
-    //ParseTemporaryFromJson("{\"message\":\"temporary\",\"id\":100,\"raw\":1}");
+	{
+		gchar *base64 = NULL;
+		gsize length = 0;
+		GError *error = NULL;
+		g_file_get_contents(SENSOR_JSON_FILE_PATH, &base64, &length, &error);
+		if(error != NULL) {
+			g_log (TAG, G_LOG_LEVEL_DEBUG, "%s", error->message);
+			g_error_free(error);
+		}
+		//base64 = g_base64_decode_inplace(base64, &length);
+		ParseSensorInfoFromJson(base64, length);
+	}
+	
+	initCache();
+	//ParseTemporaryFromJson("{\"message\":\"temporary\",\"id\":100,\"raw\":1}");
 	if(0){
 		cJSON * pJsonRoot = NULL;
 		cJSON * pJsonArray = NULL;
@@ -2644,13 +2644,13 @@ int main(void) {
 		sleep(10);
 		exit(0);
 	}
-    s_asyncQueue = g_async_queue_new();
-    g_timeout_add_seconds(1, seconds_timeout, NULL);
-    g_thread_unref(g_thread_new ("send command thread", send_command_thread, NULL));
-    g_thread_unref(g_thread_new ("mqtt thread", mqtt_thread, NULL));
-    g_thread_unref(g_thread_new ("send data thread", send_data_thread, NULL));
-    g_thread_unref(g_thread_new ("local socket thread", local_server_thread, NULL));
-    g_main_loop_run (main_loop);
-    g_main_loop_unref (main_loop);
-    return -1;
+	s_asyncQueue = g_async_queue_new();
+	g_timeout_add_seconds(1, seconds_timeout, NULL);
+	g_thread_unref(g_thread_new ("send command thread", send_command_thread, NULL));
+	g_thread_unref(g_thread_new ("mqtt thread", mqtt_thread, NULL));
+	g_thread_unref(g_thread_new ("send data thread", send_data_thread, NULL));
+	g_thread_unref(g_thread_new ("local socket thread", local_server_thread, NULL));
+	g_main_loop_run (main_loop);
+	g_main_loop_unref (main_loop);
+	return -1;
 }
